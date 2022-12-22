@@ -21,8 +21,8 @@ def hello():
     userId = request.headers.get('X-Ms-Client-Principal-Name')
 
     #for testing only
-    if userId is not None:
-        userId='ghouser@aubreys.group'
+    #if userId is None:
+    #    userId='ghouser@aubreys.group'
 
     user = {}
 
