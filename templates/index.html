@@ -313,7 +313,7 @@ body.hamburger_active .hamburger_menu {
           <li class="last-item">
             <a href="#">
               <span class="icon"><i class="far fa-user-circle"></i></span>
-              <span class="item">{{ user['displayName'] }}</span>
+              <span class="item">{{ user['fullName'] }}</span>
             </a>
           </li>
       </ul>
@@ -321,12 +321,10 @@ body.hamburger_active .hamburger_menu {
 </div>
 <div class="profile_menu">
   <div class="user">
-    <h2>{{ user['firstName'] }}<h2>
+    <h2>{{ user['fullName'] }}<h2>
     <h3>{{ user['locName'] }}</h3>
     <br/>
-    <p>
-      <a href="#">Change Restaurant</a>
-    </p>&nbsp;
+    &nbsp;
     <p>
       <a href="#">Logout</a>
     </p>
