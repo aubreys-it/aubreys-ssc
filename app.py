@@ -7,8 +7,25 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-   print('Request for index page received')
-   return render_template('index.html')
+    userId = request.headers.get('X-Ms-Client-Principal-Name')
+    user = {}
+
+    conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM ssc.loggedInEmployee WHERE userName='" + userId + "';")
+    row = cursor.fetchone()
+
+    cursor.close()
+    conn.close()
+
+    user['firstName'] = row[0]
+    user['lastName'] = row[1]
+    user['fullName'] = row[2]
+    user['emailAddress'] = row[3]
+    user['locId'] = row[4]
+    user['locName'] = row[5]
+
+    return render_template('index.html', user=user)
 
 @app.route('/favicon.ico')
 def favicon():
@@ -21,8 +38,8 @@ def hello():
     userId = request.headers.get('X-Ms-Client-Principal-Name')
 
     #for testing only
-    #if userId is None:
-    #    userId='ghouser@aubreys.group'
+    if userId is None:
+        userId='ghouser@aubreys.group'
 
     user = {}
 
