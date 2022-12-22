@@ -28,7 +28,7 @@ def hello():
 
     conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
     cursor = conn.cursor()
-    cursor.execute('SELECT * FROM ssc.loggedInEmployee WHERE emailAddress=' + userId + ';')
+    cursor.execute("SELECT * FROM ssc.loggedInEmployee WHERE userName='" + userId + "';")
     row = cursor.fetchone()
 
     cursor.close()
