@@ -1,0 +1,148 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<dom-module id="Schedule-Settings">
+
+	<template id="settings">
+
+		<div style="z-index:20;position:fixed; bottom:5%;right:5%;">
+			<paper-fab success icon="save" elevation="3" on-click="Update"></paper-fab>
+			<paper-tooltip position="left">Save changes.</paper-tooltip>
+		</div>
+		<paper-toolbar>
+			<iron-icon style="" icon="icons:settings"></iron-icon>
+			<div class="title" style="margin-left:10px;">Settings</div>
+			<paper-spinner style="margin-left:250px; position: absolute;" id="spinner"></paper-spinner>
+		</paper-toolbar>
+		<h3>Day Settings</h3>
+		<hr>
+		<template is="dom-repeat" items="{{Settings.data.day_settings}}" id="EmployeeTemplate">
+			<paper-card class="" elevation="1" onfocusin="hoverOver(this)" onfocusout="hoverOut(this)" style="margin-top:10px;margin-left:10px; max-width:360px;"
+			    secondary>
+				<div class="card-content">
+					<!--Begin AM Settings-->
+					<h3 id="Day-Name-{{index}}">{{item.day_name}} AM</h3>
+					<hr>
+					<iron-label>
+						<span>AM Must Calls Needed:</span>
+						<paper-radio-group id="MC-AM-{{index}}" selected="{{item.mc_am}}">
+							<paper-radio-button name="0">0</paper-radio-button>
+							<paper-radio-button name="1">1</paper-radio-button>
+							<paper-radio-button name="2">2</paper-radio-button>
+							<paper-radio-button name="3">3</paper-radio-button>
+						</paper-radio-group>
+					</iron-label>
+					<paper-input name="AM_Open_Shifts" label="AM Open Shifts" value="{{item.am_open}}"></paper-input>
+					<paper-input name="AM_ToGo" label="AM ToGo" value="{{item.togo_am}}"></paper-input>
+					<paper-textarea id="AM_BAR" label="AM Bartenders" value="{{item.bar_am}}" style="max-width:100%;"></paper-textarea>
+					<paper-checkbox checked="{{item.bar_am_rotate}}">Auto rotate bartenters</paper-checkbox>
+					<paper-textarea id="AM_IN_TIMES" label="AM In Times" value="{{item.in_times_am}}" style="max-width:100%;"></paper-textarea>
+					</br>
+					<!--Begin PM Settings-->
+					<h3 id="Day-Name-{{index}}">{{item.day_name}} PM</h3>
+					<hr>
+					<iron-label>
+						<span>PM Must Calls Needed:</span>
+						<paper-radio-group id="MC-PM-{{index}}" selected="{{item.mc_pm}}">
+							<paper-radio-button name="0">0</paper-radio-button>
+							<paper-radio-button name="1">1</paper-radio-button>
+							<paper-radio-button name="2">2</paper-radio-button>
+							<paper-radio-button name="3">3</paper-radio-button>
+						</paper-radio-group>
+					</iron-label>
+					<paper-input name="PM_Open_Shifts" label="PM Open Shifts" value="{{item.pm_open}}"></paper-input>
+					<paper-input name="PM_ToGo" label="PM ToGo" value="{{item.togo_pm}}"></paper-input>
+					<paper-textarea id="PM_BAR" label="PM Bartenders" value="{{item.bar_pm}}" style="max-width:100%;"></paper-textarea>
+					<paper-checkbox checked="{{item.bar_pm_rotate}}">Auto rotate bartenders</paper-checkbox>
+					<paper-textarea id="PM_IN_TIMES" label="PM In Times" value="{{item.in_times_pm}}" style="max-width:100%;"></paper-textarea>
+				</div>
+			</paper-card>
+		</template>
+
+		<h3>Other Settings</h3>
+		<hr>
+		<label>Schedule Footer: </label>
+		</br>
+		<textarea rows="20" cols="200" value="{{Settings.data.footer_settings.0.data::input}}">
+
+		</textarea>
+		<div style="height:50px;">
+			<!-- <paper-fab success style="float:right; " icon="save" elevation="3" on-click="Update"></paper-fab> -->
+		</div>
+		<paper-dialog id="noConnection" entry-animation="scale-up-animation" exit-animation="fade-out-animation" modal with-backdrop>
+			<h2>Connection Error</h2>
+			<p style="text-align:center;">
+				Theres a connection issue with the server, please try again. </br>If the issue persists for more than an hour, contact
+				Cody James (865-297-3303).
+			</p>
+			<div class="buttons">
+				<paper-button dialog-confirm autofocus>Okay</paper-button>
+			</div>
+		</paper-dialog>
+
+		<iron-ajax id="GetData" handle-as="json" method="GET" on-error="GetRequestFail" url="/api/settings" last-response="{{Settings}}"
+		    on-response="LoadingComplete" content-type="application/json">
+		</iron-ajax>
+		<iron-ajax id="postAjax" content-type="application/json" on-error="RequestFail" handle-as="json" method="PUT" on-response="RequestComplete"
+		    url="/api/settings">
+		</iron-ajax>
+	</template>
+
+
+
+	<script>
+		hoverOver = function (srcElement) {
+			srcElement.elevation = 3;
+		};
+
+		hoverOut = function (srcElement) {
+			srcElement.elevation = 1;
+		};
+
+		Polymer({
+			is: 'Schedule-Settings',
+
+
+			ready: function () {
+				this.$.spinner.active = true;
+				app.PageLoading = false;
+				this.async(function () {
+					this.$.GetData.generateRequest();
+				}, 400);
+			},
+			GetRequestFail: function () {
+				app.$.toast.text = "Unable to connect to server, trying again in 5 seconds.";
+				app.$.toast.show();
+				this.$.spinner.active = false;
+				this.async(function () {
+					this.$.spinner.active = true;
+					this.$.GetData.generateRequest();
+				}, 5000);
+
+			},
+			RequestFail: function (e) {
+				app.$.noConnection.open()
+				console.log(e)
+			},
+
+			Update: function () {
+				this.$.postAjax.body = JSON.stringify(this.Settings.data);
+				app.$.toast.text = "Settings Updated.";
+				this.$.postAjax.generateRequest();
+			},
+
+			RequestComplete: function (data) {
+				if (data.detail.response.result != 'success') {
+					app.$.toast.text = "error: " + data.detail.response.log;
+				} else {
+
+				}
+				app.$.toast.show();
+				this.$.spinner.active = false;
+			},
+			LoadingComplete: function () {
+				this.$.spinner.active = false;
+				app.PageLoading = false;
+			}
+
+		});
+	</script>
+</dom-module>

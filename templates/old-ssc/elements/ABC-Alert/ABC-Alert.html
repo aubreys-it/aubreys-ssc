@@ -1,0 +1,80 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<dom-module id="ABC-Alert">
+
+    <template>
+        <style>
+            .expired {
+                color: red;
+            }
+
+            .not-expired {
+                color: blue;
+            }
+        </style>
+        <div style="z-index:200;position:fixed; top:5px;right:40px;" hidden$="{{HideIcon}}">
+            <paper-fab-morph is-overlay-content>
+                <paper-fab icon="warning" class="dropdown-trigger" error></paper-fab>
+
+                <paper-dialog class="dropdown-content">
+                    <h2>ABC Card Expirations</h2>
+                    <paper-dialog-scrollable>
+
+                        <template is="dom-repeat" items="{{abcexp}}" as="x">
+                            <paper-item style="margin-bottom:20px;" class$="{{color(x.expired)}}">
+                                <paper-item-body two-line>
+                                    <h4>{{x.employee_name}} </h4>
+                                    <div secondary>
+                                        Expiration Data: {{x.employee_abc_expiration_date}} </br>
+                                        Days To Expairation: {{x.days_diff}}
+                                    </div>
+                                </paper-item-body>
+                            </paper-item>
+                        </template>
+                    </paper-dialog-scrollable>
+                </paper-dialog>
+            </paper-fab-morph>
+        </div>
+
+        <iron-ajax id="GetData" handle-as="json" method="get" url="/api/employees/abcexpirations" on-error="GetRequestFail" on-response="SetVariable"
+            content-type="application/json">
+        </iron-ajax>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'ABC-Alert',
+            properties: {
+                HideIcon: {
+                    type: Boolean,
+                    value: true
+                },
+                abcexp: {
+                    type: Array
+                }
+
+            },
+            ready: function () {
+                this.$.GetData.generateRequest();
+            },
+            GetRequestFail: function () {
+                this.async(function () {
+                    this.$.GetData.generateRequest();
+                }, 6000);
+            },
+            SetVariable: function (data) {
+                this.abcexp = data.detail.response.data;
+                if (this.abcexp) {
+                    this.HideIcon = false;
+                }
+            },
+            color: function (expired) {
+                if (expired) {
+                    return 'expired';
+                } else {
+                    return 'not-expired';
+                };
+            }
+        });
+    </script>
+
+</dom-module>
