@@ -25,7 +25,7 @@ def index():
     user['locId'] = row[4]
     user['locName'] = row[5]
 
-    return render_template('index.html', user=user)
+    return render_template('old-ssc/index.html', user=user)
 
 @app.route('/favicon.ico')
 def favicon():
