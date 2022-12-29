@@ -30,20 +30,20 @@
                                             <div class="table-responsive">
                                                 <table class="table table-hover">
                                                     <tbody>
-                                                    {% for server in abcExpiry %}
+                                                    {% for empId in expiry %}
                                                     <tr class="unread">
                                                         <td>
                                                             <img class="rounded-circle" style="width:40px;"
                                                                 src="/static/assets/images/user/user-logo-1.png" alt="activity-user">
                                                         </td>
                                                         <td>
-                                                            <h6 class="mb-1">{{ abcExpiry[server].displayName }}</h6>
-                                                            <p class="m=0">{{ abcExpiry[server].phone }}</p>
+                                                            <h6 class="mb-1">{{ expiry[empId].displayName }}</h6>
+                                                            <p class="m=0">{{ expiry[empId].phone }}</p>
                                                         </td>
                                                         <td>
                                                             <h6 class="text-muted">
                                                                 <i class="fas fa-circle text-c-red f-10 m-r-15"></i>
-                                                                {{ abcExpiry[server].abcExpire }}
+                                                                {{ expiry[empId].abcExpire }}
                                                             </h6>
                                                         </td>
                                                         <td><a href="#!"

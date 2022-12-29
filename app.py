@@ -1,11 +1,9 @@
 from datetime import datetime
 import os
 from flask import Flask, render_template, redirect, url_for, send_from_directory
-from aubssc import loadUserFromDMCP
+from aubssc import loadUserFromDMCP, getAbcExpiry
 
 app = Flask(__name__)
-
-ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets')
 
 @app.route('/')
 def index():
@@ -16,7 +14,13 @@ def index():
     except NameError:
         user = loadUserFromDMCP()
 
-    return render_template('home/index.html', user=user)
+    try:
+        if not expiry:
+            expiry = getAbcExpiry(user.locId)
+    except NameError:
+        expiry = getAbcExpiry(user.locId)
+
+    return render_template('home/index.html', user=user, expiry=expiry)
 
 @app.route('/favicon.ico')
 def favicon():
