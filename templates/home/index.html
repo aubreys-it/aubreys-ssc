@@ -1,0 +1,74 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <!--[ ABC Expirations ] start-->
+                                <div class="col-xl-8 col-md-6">
+                                    <div class="card Recent-Users">
+                                        <div class="card-header">
+                                            <h5>Upcoming ABC Expirations</h5>
+                                        </div>
+                                        <div class="card-block px-0 py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <tbody>
+                                                    {% for server in abcExpiry %}
+                                                    <tr class="unread">
+                                                        <td>
+                                                            <img class="rounded-circle" style="width:40px;"
+                                                                src="{{ config.ASSETS_ROOT }}/images/user/user-logo-1.png" alt="activity-user">
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="mb-1">{{ abcExpiry[server].displayName }}</h6>
+                                                            <p class="m=0">{{ abcExpiry[server].phone }}</p>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="text-muted">
+                                                                <i class="fas fa-circle text-c-red f-10 m-r-15"></i>
+                                                                {{ abcExpiry[server].abcExpire }}
+                                                            </h6>
+                                                        </td>
+                                                        <td><a href="#!"
+                                                            class="label theme-bg2 text-white f-12">Edit</a>
+                                                    </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--[ ABC Expirations ] end-->
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->            
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

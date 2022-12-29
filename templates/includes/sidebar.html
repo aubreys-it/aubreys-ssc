@@ -1,0 +1,51 @@
+<!-- [ navigation menu ] start -->
+<nav class="pcoded-navbar">
+    <div class="navbar-wrapper">
+        <div class="navbar-brand header-logo">
+            <a href="/" class="b-brand">
+                <span class="b-title">&nbsp;<br/><h3>Aubrey's FOH<br />Scheduler</h3></span>
+            </a>
+            <a class="mobile-menu" id="mobile-collapse" href="javascript:"><span></span></a>
+        </div>
+        <div class="navbar-content scroll-div">
+            <ul class="nav pcoded-inner-navbar">
+                <li class="nav-item pcoded-menu-caption">
+                    <label>&nbsp;<br/>Navigation</label>
+                </li>
+                <li data-username="dashboard" 
+                    class="nav-item {% if 'index' in segment %} active {% endif %}">
+                    <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span
+                            class="pcoded-mtext">Dashboard</span></a>
+                </li>
+                <li data-username="schedule" 
+                    class="nav-item {% if 'profile' in segment %} active {% endif %}">
+                    <a href="/schedule.html" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-calendar"></i></span>
+                            <span class="pcoded-mtext">Server Schedule</span></a>
+                </li>  
+                <li data-username="servers employees"
+                    class="nav-item {% if 'employees' in segment %} active {% endif %}">
+                    <a href="/employees.html" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-users"></i></span>
+                            <span class="pcoded-mtext">Employee Info</span>
+                    </a>      
+                </li>               
+                <li data-username="settings"
+                    class="nav-item {% if 'schedule' in segment %} active {% endif %}">
+                    <a href="/settings.html" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
+                            <span class="pcoded-mtext">Schedule Settings</span>
+                    </a>      
+                </li> 
+                <li data-username="contact"
+                    class="nav-item {% if 'contact' in segment %} active {% endif %}">
+                    <a href="/contact.html" class="nav-link">
+                        <span class="pcoded-micon"><i class="feather icon-mail"></i></span>
+                            <span class="pcoded-mtext">Contact Employees</span>
+                    </a>      
+                </li> 
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- [ navigation menu ] end -->
