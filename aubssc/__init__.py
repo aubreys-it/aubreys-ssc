@@ -29,7 +29,7 @@ def loadUserFromDMCP():
     conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
     dmcp = conn.cursor()
 
-    sql = "SELECT * FROM ssc.loggedInEmployee WHERE userName='" + userId + "';"
+    sql = f"SELECT * FROM ssc.loggedInEmployee WHERE userName='{userId}';"
     dmcp.execute(sql)
     userRecord = dmcp.fetchone()
 
