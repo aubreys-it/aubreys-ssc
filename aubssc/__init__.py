@@ -14,7 +14,9 @@ class user:
 class db:
     def __init__(self):
         conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
-        return conn.cursor()
+
+    def cursor(self):
+        return self.cursor()
 
     def close(self):
         self.close()
@@ -23,7 +25,7 @@ def loadUserFromDMCP():
     userId = request.headers.get('X-Ms-Client-Principal-Name')
     sql = "SELECT * FROM ssc.loggedInEmployee WHERE userName='" + userId + "';"
 
-    dmcp = db()
+    dmcp = db().cursor()
     dmcp.execute(sql)
     userRecord = dmcp.fetchone()
     dmcp.close()
