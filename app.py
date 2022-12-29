@@ -1,7 +1,7 @@
 from datetime import datetime
 import os
 import pyodbc
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, render_template, redirect, url_for, send_from_directory
 from aubssc import loadUserFromDMCP
 app = Flask(__name__)
 
