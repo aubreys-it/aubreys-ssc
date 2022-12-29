@@ -3,6 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
+"""
 from flask import Flask
 from importlib import import_module
 
@@ -16,3 +17,4 @@ def create_app(config):
     app.config.from_object(config)
     register_blueprints(app)  
     return app
+"""
