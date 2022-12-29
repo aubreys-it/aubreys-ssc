@@ -10,7 +10,7 @@ app = Flask(__name__)
 def index():
     
     user = loadUserFromDMCP()
-    return render_template('old-ssc/index.html', user=user)
+    return render_template('index.html', user=user)
 
 @app.route('/favicon.ico')
 def favicon():
