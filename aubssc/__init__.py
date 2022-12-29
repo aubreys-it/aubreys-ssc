@@ -11,22 +11,16 @@ class user:
         self.locId = userInfo[4]
         self.locName = userInfo[5]
 
-class db:
-    def __init__(self):
-        conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
-
-    def close(self):
-        self.close()
-
 def loadUserFromDMCP():
     userId = request.headers.get('X-Ms-Client-Principal-Name')
     sql = "SELECT * FROM ssc.loggedInEmployee WHERE userName='" + userId + "';"
 
-    dmcp = db()
-    cursor = dmcp.cursor()
-    cursor.execute(sql)
-    userRecord = cursor.fetchone()
-    cursor.close()
+    conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
+    dmcp = conn.cursor()
+    dmcp.execute(sql)
+    userRecord = dmcp.fetchone()
+    
     dmcp.close()
+    conn.close()
 
     return user(userRecord).__dict__
