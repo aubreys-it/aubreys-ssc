@@ -1,0 +1,129 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Page Blank {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <h4 class="m-b-10">Employee Information</h4>
+                                    </div>
+                                    <ul class="breadcrumb">
+                                        <li class="breadcrumb-item"><a href="/"><i class="feather icon-home"></i></a></li>
+                                        <li class="breadcrumb-item"><a href="javascript:">Employee Information</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            {% for employee in employees %}
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <div class="card">
+                                        <div class="card-block">
+                                            <div class="card-body">
+                                                <h5>Employee Info</h5>
+                                                <hr>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <form class="inline">
+                                                            <div class="form-group mb-2">
+                                                                <label for="displayName-{{ employees[employee].empId }}">Display Name</label>
+                                                                <input type="text" class="form-control" id="displayName-{{ employees[employee].empId }}" 
+                                                                    value="{{ employees[employee].displayName }}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="firstName-{{ employees[employee].empId }}">First Name</label>
+                                                                <input type="text" class="form-control" id="firstName-{{ employees[employee].empId }}" 
+                                                                    value="{{ employees[employee].firstName }}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="phone-{{ employees[employee].empId }}">Phone Number</label>
+                                                                <input type="text" class="form-control" id="phone-{{ employees[employee].empId }}" 
+                                                                    value="{{ employees[employee].phone }}">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="abcExpire-{{ employees[employee].empId }}">ABC Expiration Date</label>
+                                                                <input type="text" class="form-control" id="abcExpire-{{ employees[employee].empId }}"
+                                                                    value="{{ employees[employee].abcExpire }}">
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <form>
+                                                            <div class="form-group">
+                                                                <label>Text</label>
+                                                                <input type="text" class="form-control" placeholder="Text">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="exampleFormControlSelect1">Example select</label>
+                                                                <select class="form-control" id="exampleFormControlSelect1">
+                                                                    <option>1</option>
+                                                                    <option>2</option>
+                                                                    <option>3</option>
+                                                                    <option>4</option>
+                                                                    <option>5</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="exampleFormControlTextarea1">Example textarea</label>
+                                                                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                <h5 class="mt-5">Inline</h5>
+                                                <hr>
+                                                <form class="form-inline">
+                                                    <div class="form-group mb-2">
+                                                        <label for="staticEmail2" class="sr-only">Email</label>
+                                                        <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="email@example.com">
+                                                    </div>
+                                                    <div class="form-group mx-sm-3 mb-2">
+                                                        <label for="inputPassword2" class="sr-only">Password</label>
+                                                        <input type="password" class="form-control" id="inputPassword2" placeholder="Password">
+                                                    </div>
+                                                    <button type="submit" class="btn btn-primary mb-2">Confirm identity</button>
+                                                </form>
+                                                <h5 class="mt-3">Checkboxes</h5>
+                                                <hr>
+                                                <div class="custom-control custom-checkbox">
+                                                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                                                    <label class="custom-control-label" for="customCheck1">Check this custom checkbox</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

@@ -1,6 +1,9 @@
 import os
 import pyodbc
+import config
 from flask import request
+import requests
+import json
 
 class user:
     def __init__(self, userInfo):
@@ -26,7 +29,7 @@ class abcExpiry:
 def loadUserFromDMCP():
     userId = request.headers.get('X-Ms-Client-Principal-Name')
     
-    conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
+    conn = pyodbc.connect(config.DMCP_CONNECT_STRING)
     dmcp = conn.cursor()
 
     sql = f"SELECT * FROM ssc.loggedInEmployee WHERE userName='{userId}';"
@@ -40,7 +43,7 @@ def loadUserFromDMCP():
 
 def getAbcExpiry(locId):
 
-    conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
+    conn = pyodbc.connect(config.DMCP_CONNECT_STRING)
     dmcp = conn.cursor()
 
     sql = f"SELECT * FROM ssc.abcExpiry({locId});"
@@ -56,3 +59,9 @@ def getAbcExpiry(locId):
         abcX[server.empId]=server.__dict__
 
     return abcX
+
+def getEmployees(locId):
+    uri = f"{config.API_BASE_URI}get-employees?code={config.GET_EMP_CODE}&locId={locId}"
+    response = requests.request('GET', uri)
+
+    return json.loads(response.text)
