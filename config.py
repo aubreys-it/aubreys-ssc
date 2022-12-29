@@ -3,6 +3,7 @@
 Copyright (c) 2019 - present AppSeed.us
 """
 
+"""
 import os
 
 class Config(object):
@@ -56,3 +57,4 @@ config_dict = {
     'Production': ProductionConfig,
     'Debug'     : DebugConfig
 }
+"""
