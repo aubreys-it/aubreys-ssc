@@ -16,9 +16,9 @@ def index():
 
     try:
         if not expiry:
-            expiry = getAbcExpiry(user.locId)
+            expiry = getAbcExpiry(user['locId'])
     except NameError:
-        expiry = getAbcExpiry(user.locId)
+        expiry = getAbcExpiry(user['locId'])
 
     return render_template('home/index.html', user=user, expiry=expiry)
 
