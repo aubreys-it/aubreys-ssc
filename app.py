@@ -3,8 +3,10 @@ import os
 import pyodbc
 from flask import Flask, render_template, redirect, url_for, send_from_directory
 from aubssc import loadUserFromDMCP
+
 app = Flask(__name__)
 
+ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets')
 
 @app.route('/')
 def index():
