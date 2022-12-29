@@ -10,7 +10,8 @@ ASSETS_ROOT = os.getenv('ASSETS_ROOT', '/static/assets')
 @app.route('/')
 def index():
     
-    user = loadUserFromDMCP()
+    if not user:
+        user = loadUserFromDMCP()
     return render_template('home/index.html', user=user)
 
 @app.route('/favicon.ico')
