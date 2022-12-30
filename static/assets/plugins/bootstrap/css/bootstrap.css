@@ -1949,6 +1949,7 @@ textarea.form-control {
 
 .form-group {
   margin-bottom: 1rem;
+  margin-right: 30px;
 }
 
 .form-text {
