@@ -13,18 +13,27 @@
             <div class="pcoded-content">
                 <div class="pcoded-inner-content">
                     <!-- [ breadcrumb ] start -->
-                    <div class="page-header">
+                    <div class="page-header" id="pageHeader">
                         <div class="page-block">
                             <div class="row align-items-center">
                                 <div class="col-md-12">
                                     <div class="page-header-title">
-                                        <h4 class="m-b-10">Employee Information</h4>
+                                        <div>&nbsp;</div>
+                                        <div>
+                                            <h4 class="m-b-10">Employee Information</h4>
+                                        </div>
                                     </div>
                                     <div class="input-group rounded mb-2 col-5">
                                         <input type="search" class="form-control rounded" id="searchEmployees" placeholder="Search Employees" aria-label="Search" 
                                             aria-describedby="search-addon" style="background-color:#fff"/>
                                         <span class="input-group-text border-0" id="search-addon">
                                             <i class="fas fa-search"></i>
+                                        </span>
+                                    </div>
+                                    <div class="input-group rounded mb-2 col-5">
+                                        <span>
+                                            <button type="submit" id="addEmployeeToggle" class="btn btn-primary" name="command" value="toggleAddNew"
+                                            onclick="toggleAddEmployee('hide')">Add Employee</button>
                                         </span>
                                     </div>
                                     <div>&nbsp;</div>
@@ -34,150 +43,321 @@
                     </div>
                     <!-- [ breadcrumb ] end -->
                     <div class="main-body">
-                        <div class="page-wrapper" id="pageWrapper">
+                        <div class="page-wrapper">
                             <!-- [ Main Content ] start -->
-                            {% for employee in employees %}
-                            <div class="row" id="cw-{{ employees[employee].firstName }}{{ employees[employee].lastName }}">
-                                <div class="col-sm-12">
-                                    <div class="card">
-                                        <div class="card-block">
-                                            <div class="card-body">
-                                                <h5><b>{{ employees[employee].lastName }},&nbsp;{{ employees[employee].firstName }}</b></h5>
-                                                <hr>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <form class="form-inline">
-                                                            <div class="form-group mb-2 col-2">
-                                                                <label for="displayName-{{ employees[employee].empId }}">Display Name</label>
+                            <!-- [New Employee Form] -->
+                            <table>
+                                <tbody id="newEmployee" style="display: none">
+                                    <tr><td>
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <div class="card">
+                                                    <div class="card-block">
+                                                        <div class="card-body">
+                                                            <h5><b>New Employee</b></h5>
+                                                            <hr>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <form class="form-inline" action="" method="post" id="newEmployee">
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="displayName">Display Name</label>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-10">
+                                                                            <input type="text" class="form-control" id="displayName" name="displayName"/>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="firstName">First Name</label>
+                                                                        </div>    
+                                                                        <div class="input-group mb-2 col-4" style="background-color:#fff">
+                                                                            <input type="text" class="form-control" id="firstName" name="firstName"/>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="lastName">Last Name</label>
+                                                                        </div>
+                                                                        <div class="input-group mb-2 col-4" style="background-color:#fff">
+                                                                            <input type="text" class="form-control" id="lastName" name="lastName"/>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="phone">Phone Number&nbsp;&nbsp;<i>(XXX-XXX-XXXX)</i></label>
+                                                                        </div>
+                                                                        <div class="input-group mb-2 col-4" style="background-color:#fff">
+                                                                            <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" class="form-control" id="phone" 
+                                                                                placeholder="XXX-XXX-XXXXX" data-sb-validations="tel"
+                                                                                name="phone"/>
+                                                                            <div class="invalid-feedback" data-sb-feedback="tel:tel">Phone nmumber must be in XXX-XXX-XXXX format!</div>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="emailAddress">Email Address</label>
+                                                                        </div>
+                                                                        <div class="input-group mb-2 col-4" style="background-color:#fff">
+                                                                            <input type="email" class="form-control" id="emailAddress" 
+                                                                                data-sb-validations="required, email" name="emailAddress"/>
+                                                                            <div class="invalid-feedback" data-sb-feedback="emailAddress:required">Email Address is required.</div>
+                                                                            <div class="invalid-feedback" data-sb-feedback="emailAddress:email">Email Address is not valid.</div>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="abcExpire">ABC Expiration Date</label>
+                                                                        </div>
+                                                                        <div class="input-group mb-2 col-4" style="background-color:#fff">
+                                                                            <input type="date" class="form-control" id="abcExpire" name="abcExpire"/>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="abcBookLocation">ABC Book Location</label>
+                                                                        </div>
+                                                                        <div class="input-group mb-2 col-4" style="background-color:#fff">
+                                                                            <input type="text" class="form-control" id="abcBookLocation" name="abcBookLocation"/>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="availability"><h5 class="mt-5">Shift Availability</h5></label>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-12">
+                                                                            <label for="monAM" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="monAM" name="monAM"/>
+                                                                                &nbsp;&nbsp;Mon AM
+                                                                            </label>
+                                                                            <label for="tueAM" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="tueAM" name="tueAM"/>
+                                                                                &nbsp;&nbsp;Tue AM
+                                                                            </label>
+                                                                            <label for="wedAM" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="wedAM" name="wedAM"/>
+                                                                                &nbsp;&nbsp;Wed AM
+                                                                            </label>
+                                                                            <label for="thuAM" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="thuAM" name="thuAM"/>
+                                                                                &nbsp;&nbsp;Thu AM
+                                                                            </label>
+                                                                            <label for="friAM" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="friAM" name="friAM"/>
+                                                                                &nbsp;&nbsp;Fri AM
+                                                                            </label>
+                                                                            <label for="satAM" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="satAM" name="satAM"/>
+                                                                                &nbsp;&nbsp;Sat AM
+                                                                            </label>
+                                                                            <label for="sunAM" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="sunAM" name="sunAM"/>
+                                                                                &nbsp;&nbsp;Sun AM
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-12">
+                                                                            <label for="monPM" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="monPM" name="monPM"/>
+                                                                                &nbsp;&nbsp;Mon PM
+                                                                            </label>
+                                                                            <label for="tuePM" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="tuePM" name="tuePM"/>
+                                                                                &nbsp;&nbsp;Tue PM
+                                                                            </label>
+                                                                            <label for="wedPM" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="wedPM" name="wedPM"/>
+                                                                                &nbsp;&nbsp;Wed PM
+                                                                            </label>
+                                                                            <label for="thuPM" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="thuPM" name="thuPM"/>
+                                                                                &nbsp;&nbsp;Thu PM
+                                                                            </label>
+                                                                            <label for="friPM" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="friPM" name="friPM"/>
+                                                                                &nbsp;&nbsp;Fri PM
+                                                                            </label>
+                                                                            <label for="satPM" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="satPM" name="satPM"/>
+                                                                                &nbsp;&nbsp;Sat PM
+                                                                            </label>
+                                                                            <label for="sunPM" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="sunPM" name="sunPM"/>
+                                                                                &nbsp;&nbsp;Sun PM
+                                                                            </label>
+                                                                        </div>
+                                                                        <div>&nbsp;</div>
+                                                                        <div hidden>
+                                                                            <input type="text" id="locId-newEmployee" name="locId" value="{{ user.locId }}"/>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-12">
+                                                                            <button type="submit" class="btn btn-secondary" name="command" value="addEmployee">Add Employee</button>
+                                                                            <button type="button" class="btn btn-danger" name="command" value="cancel" onclick="toggleAddEmployee('show')">
+                                                                            Cancel</button>
+                                                                        </div>
+                                                                    </form>
+                                                                </div>
                                                             </div>
-                                                            <div class="form-group mb-2 col-10">
-                                                                <input type="text" class="form-control" id="displayName-{{ employees[employee].empId }}" 
-                                                                    value="{{ employees[employee].displayName }}">
-                                                            </div>
-                                                            <div class="form-group mb-2 col-2">
-                                                                <label for="firstName-{{ employees[employee].empId }}">First Name</label>
-                                                            </div>    
-                                                            <div class="input-group mb-2 col-4" style="background-color:#fff">
-                                                                <input type="text" class="form-control" id="firstName-{{ employees[employee].empId }}" 
-                                                                    value="{{ employees[employee].firstName }}">
-                                                            </div>
-                                                            <div class="form-group mb-2 col-2">
-                                                                <label for="lastName-{{ employees[employee].empId }}">Last Name</label>
-                                                            </div>
-                                                            <div class="input-group mb-2 col-4" style="background-color:#fff">
-                                                                <input type="text" class="form-control" id="lastName-{{ employees[employee].empId }}" 
-                                                                    value="{{ employees[employee].lastName }}">
-                                                            </div>
-                                                            <div class="form-group mb-2 col-2">
-                                                                <label for="phone-{{ employees[employee].empId }}">Phone Number&nbsp;&nbsp;<i>(XXX-XXX-XXXX)</i></label>
-                                                            </div>
-                                                            <div class="input-group mb-2 col-4" style="background-color:#fff">
-                                                                <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" class="form-control" id="phone-{{ employees[employee].empId }}" 
-                                                                    placeholder="XXX-XXX-XXXXX" value="{{ employees[employee].phone }}" data-sb-validations="tel">
-                                                                <div class="invalid-feedback" data-sb-feedback="tel:tel">Phone nmumber must be in XXX-XXX-XXXX format!</div>
-                                                            </div>
-                                                            <div class="form-group mb-2 col-2">
-                                                                <label for="emailAddress-{{ employees[employee].empId }}">Email Address</label>
-                                                            </div>
-                                                            <div class="input-group mb-2 col-4" style="background-color:#fff">
-                                                                <input type="email" class="form-control" id="emailAddress-{{ employees[employee].empId }}" 
-                                                                    value="{{ employees[employee].emailAddress }}"
-                                                                    data-sb-validations="required, email">
-                                                                <div class="invalid-feedback" data-sb-feedback="emailAddress:required">Email Address is required.</div>
-                                                                <div class="invalid-feedback" data-sb-feedback="emailAddress:email">Email Address is not valid.</div>
-                                                            </div>
-                                                            <div class="form-group mb-2 col-2">
-                                                                <label for="abcExpire-{{ employees[employee].empId }}">ABC Expiration Date</label>
-                                                            </div>
-                                                            <div class="input-group mb-2 col-4" style="background-color:#fff">
-                                                                <input type="date" class="form-control" id="abcExpire-{{ employees[employee].empId }}"
-                                                                    value="{{ employees[employee].abcExpire }}">
-                                                            </div>
-                                                            <div class="form-group mb-2 col-2">
-                                                                <label for="abcBookLocation-{{ employees[employee].empId }}">ABC Book Location</label>
-                                                            </div>
-                                                            <div class="input-group mb-2 col-4" style="background-color:#fff">
-                                                                <input type="text" class="form-control" id="abcBookLocation-{{ employees[employee].empId }}" 
-                                                                    value="{{ employees[employee].abcBookLocation }}">
-                                                            </div>
-                                                            <div class="form-group mb-2 col-2">
-                                                                <label for="availability-{{ employees[employee].empId }}"><h5 class="mt-5">Shift Availability</h5></label>
-                                                            </div>
-                                                            <div class="form-group mb-2 col-12">
-                                                                <label for="monAM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
-                                                                    <input type="checkbox" id="monAM-{{ employees[employee].empId }}" {% if employees[employee].monAM %}checked{% endif %}>
-                                                                    &nbsp;&nbsp;Mon AM
-                                                                </label>
-                                                                <label for="tueAM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
-                                                                    <input type="checkbox" id="tueAM-{{ employees[employee].empId }}" {% if employees[employee].tueAM %}checked{% endif %}>
-                                                                    &nbsp;&nbsp;Tue AM
-                                                                </label>
-                                                                <label for="wedAM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
-                                                                    <input type="checkbox" id="wedAM-{{ employees[employee].empId }}" {% if employees[employee].wedAM %}checked{% endif %}>
-                                                                    &nbsp;&nbsp;Wed AM
-                                                                </label>
-                                                                <label for="thuAM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
-                                                                    <input type="checkbox" id="thuAM-{{ employees[employee].empId }}" {% if employees[employee].thuAM %}checked{% endif %}>
-                                                                    &nbsp;&nbsp;Thu AM
-                                                                </label>
-                                                                <label for="friAM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
-                                                                    <input type="checkbox" id="friAM-{{ employees[employee].empId }}" {% if employees[employee].friAM %}checked{% endif %}>
-                                                                    &nbsp;&nbsp;Fri AM
-                                                                </label>
-                                                                <label for="satAM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
-                                                                    <input type="checkbox" id="satAM-{{ employees[employee].empId }}" {% if employees[employee].satAM %}checked{% endif %}>
-                                                                    &nbsp;&nbsp;Sat AM
-                                                                </label>
-                                                                <label for="sunAM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
-                                                                    <input type="checkbox" id="sunAM-{{ employees[employee].empId }}" {% if employees[employee].sunAM %}checked{% endif %}>
-                                                                    &nbsp;&nbsp;Sun AM
-                                                                </label>
-                                                            </div>
-                                                            <div class="form-group mb-2 col-12">
-                                                                <label for="monPM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
-                                                                    <input type="checkbox" id="monPM-{{ employees[employee].empId }}" {% if employees[employee].monPM %}checked{% endif %}>
-                                                                    &nbsp;&nbsp;Mon PM
-                                                                </label>
-                                                                <label for="tuePM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
-                                                                    <input type="checkbox" id="tuePM-{{ employees[employee].empId }}" {% if employees[employee].tuePM %}checked{% endif %}>
-                                                                    &nbsp;&nbsp;Tue PM
-                                                                </label>
-                                                                <label for="wedPM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
-                                                                    <input type="checkbox" id="wedPM-{{ employees[employee].empId }}" {% if employees[employee].wedPM %}checked{% endif %}>
-                                                                    &nbsp;&nbsp;Wed PM
-                                                                </label>
-                                                                <label for="thuPM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
-                                                                    <input type="checkbox" id="thuPM-{{ employees[employee].empId }}" {% if employees[employee].thuPM %}checked{% endif %}>
-                                                                    &nbsp;&nbsp;Thu PM
-                                                                </label>
-                                                                <label for="friPM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
-                                                                    <input type="checkbox" id="friPM-{{ employees[employee].empId }}" {% if employees[employee].friPM %}checked{% endif %}>
-                                                                    &nbsp;&nbsp;Fri PM
-                                                                </label>
-                                                                <label for="satPM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
-                                                                    <input type="checkbox" id="satPM-{{ employees[employee].empId }}" {% if employees[employee].satPM %}checked{% endif %}>
-                                                                    &nbsp;&nbsp;Sat PM
-                                                                </label>
-                                                                <label for="sunPM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
-                                                                    <input type="checkbox" id="sunPM-{{ employees[employee].empId }}" {% if employees[employee].sunPM %}checked{% endif %}>
-                                                                    &nbsp;&nbsp;Sun PM
-                                                                </label>
-                                                            </div>
-                                                            <div>&nbsp;</div>
-                                                            <div class="form-group mb-2 col-12">
-                                                                <button type="submit" class="btn btn-secondary">Update Employee</button>
-                                                                <button type="submit" class="btn btn-danger">Delete Employee</button>
-                                                            </div>
-                                                        </form>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </td></tr>
+                                </tbody>
+                            </table>
+                            <table>
+                                <tbody id="pageWrapper">
+                                    {% for employee in employees %}
+                                    <tr><td>
+                                        <div class="row" id="a-{{ employees[employee].empId }}">
+                                            <div class="col-sm-12">
+                                                <div class="card">
+                                                    <div class="card-block">
+                                                        <div class="card-body">
+                                                            <h5><b>{{ employees[employee].lastName }},&nbsp;{{ employees[employee].firstName }}</b></h5>
+                                                            <hr>
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <form class="form-inline" action="" method="post" id="frm-{{ employees[employee].empId }}">
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="displayName-{{ employees[employee].empId }}">Display Name</label>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-10">
+                                                                            <input type="text" class="form-control" id="displayName-{{ employees[employee].empId }}" 
+                                                                                value="{{ employees[employee].displayName }}" name="displayName"/>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="firstName-{{ employees[employee].empId }}">First Name</label>
+                                                                        </div>    
+                                                                        <div class="input-group mb-2 col-4" style="background-color:#fff">
+                                                                            <input type="text" class="form-control" id="firstName-{{ employees[employee].empId }}" 
+                                                                                value="{{ employees[employee].firstName }}" name="firstName"/>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="lastName-{{ employees[employee].empId }}">Last Name</label>
+                                                                        </div>
+                                                                        <div class="input-group mb-2 col-4" style="background-color:#fff">
+                                                                            <input type="text" class="form-control" id="lastName-{{ employees[employee].empId }}" 
+                                                                                value="{{ employees[employee].lastName }}" name="lastName"/>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="phone-{{ employees[employee].empId }}">Phone Number&nbsp;&nbsp;<i>(XXX-XXX-XXXX)</i></label>
+                                                                        </div>
+                                                                        <div class="input-group mb-2 col-4" style="background-color:#fff">
+                                                                            <input type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" class="form-control" id="phone-{{ employees[employee].empId }}" 
+                                                                                placeholder="XXX-XXX-XXXXX" value="{{ employees[employee].phone }}" data-sb-validations="tel"
+                                                                                name="phone"/>
+                                                                            <div class="invalid-feedback" data-sb-feedback="tel:tel">Phone nmumber must be in XXX-XXX-XXXX format!</div>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="emailAddress-{{ employees[employee].empId }}">Email Address</label>
+                                                                        </div>
+                                                                        <div class="input-group mb-2 col-4" style="background-color:#fff">
+                                                                            <input type="email" class="form-control" id="emailAddress-{{ employees[employee].empId }}" 
+                                                                                value="{{ employees[employee].emailAddress }}"
+                                                                                data-sb-validations="required, email" name="emailAddress"/>
+                                                                            <div class="invalid-feedback" data-sb-feedback="emailAddress:required">Email Address is required.</div>
+                                                                            <div class="invalid-feedback" data-sb-feedback="emailAddress:email">Email Address is not valid.</div>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="abcExpire-{{ employees[employee].empId }}">ABC Expiration Date</label>
+                                                                        </div>
+                                                                        <div class="input-group mb-2 col-4" style="background-color:#fff">
+                                                                            <input type="date" class="form-control" id="abcExpire-{{ employees[employee].empId }}"
+                                                                                value="{{ employees[employee].abcExpire }}" name="abcExpire"/>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="abcBookLocation-{{ employees[employee].empId }}">ABC Book Location</label>
+                                                                        </div>
+                                                                        <div class="input-group mb-2 col-4" style="background-color:#fff">
+                                                                            <input type="text" class="form-control" id="abcBookLocation-{{ employees[employee].empId }}" 
+                                                                                value="{{ employees[employee].abcBookLocation }}" name="abcBookLocation"/>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-2">
+                                                                            <label for="availability-{{ employees[employee].empId }}"><h5 class="mt-5">Shift Availability</h5></label>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-12">
+                                                                            <label for="monAM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="monAM-{{ employees[employee].empId }}" {% if employees[employee].monAM %}checked{% endif %}
+                                                                                name="monAM"/>
+                                                                                &nbsp;&nbsp;Mon AM
+                                                                            </label>
+                                                                            <label for="tueAM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="tueAM-{{ employees[employee].empId }}" {% if employees[employee].tueAM %}checked{% endif %}
+                                                                                name="tueAM"/>
+                                                                                &nbsp;&nbsp;Tue AM
+                                                                            </label>
+                                                                            <label for="wedAM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="wedAM-{{ employees[employee].empId }}" {% if employees[employee].wedAM %}checked{% endif %}
+                                                                                name="wedAM"/>
+                                                                                &nbsp;&nbsp;Wed AM
+                                                                            </label>
+                                                                            <label for="thuAM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="thuAM-{{ employees[employee].empId }}" {% if employees[employee].thuAM %}checked{% endif %}
+                                                                                name="thuAM"/>
+                                                                                &nbsp;&nbsp;Thu AM
+                                                                            </label>
+                                                                            <label for="friAM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="friAM-{{ employees[employee].empId }}" {% if employees[employee].friAM %}checked{% endif %}
+                                                                                name="friAM"/>
+                                                                                &nbsp;&nbsp;Fri AM
+                                                                            </label>
+                                                                            <label for="satAM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="satAM-{{ employees[employee].empId }}" {% if employees[employee].satAM %}checked{% endif %}
+                                                                                name="satAM"/>
+                                                                                &nbsp;&nbsp;Sat AM
+                                                                            </label>
+                                                                            <label for="sunAM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="sunAM-{{ employees[employee].empId }}" {% if employees[employee].sunAM %}checked{% endif %}
+                                                                                name="sunAM"/>
+                                                                                &nbsp;&nbsp;Sun AM
+                                                                            </label>
+                                                                        </div>
+                                                                        <div class="form-group mb-2 col-12">
+                                                                            <label for="monPM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="monPM-{{ employees[employee].empId }}" {% if employees[employee].monPM %}checked{% endif %}
+                                                                                name="monPM"/>
+                                                                                &nbsp;&nbsp;Mon PM
+                                                                            </label>
+                                                                            <label for="tuePM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="tuePM-{{ employees[employee].empId }}" {% if employees[employee].tuePM %}checked{% endif %}
+                                                                                name="tuePM"/>
+                                                                                &nbsp;&nbsp;Tue PM
+                                                                            </label>
+                                                                            <label for="wedPM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="wedPM-{{ employees[employee].empId }}" {% if employees[employee].wedPM %}checked{% endif %}
+                                                                                name="wedPM"/>
+                                                                                &nbsp;&nbsp;Wed PM
+                                                                            </label>
+                                                                            <label for="thuPM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="thuPM-{{ employees[employee].empId }}" {% if employees[employee].thuPM %}checked{% endif %}
+                                                                                name="thuPM"/>
+                                                                                &nbsp;&nbsp;Thu PM
+                                                                            </label>
+                                                                            <label for="friPM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="friPM-{{ employees[employee].empId }}" {% if employees[employee].friPM %}checked{% endif %}
+                                                                                name="friPM"/>
+                                                                                &nbsp;&nbsp;Fri PM
+                                                                            </label>
+                                                                            <label for="satPM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="satPM-{{ employees[employee].empId }}" {% if employees[employee].satPM %}checked{% endif %}
+                                                                                name="satPM"/>
+                                                                                &nbsp;&nbsp;Sat PM
+                                                                            </label>
+                                                                            <label for="sunPM-{{ employees[employee].empId }}" class="checkbox-inline col-1">
+                                                                                <input type="checkbox" id="sunPM-{{ employees[employee].empId }}" {% if employees[employee].sunPM %}checked{% endif %}
+                                                                                name="sunPM"/>
+                                                                                &nbsp;&nbsp;Sun PM
+                                                                            </label>
+                                                                        </div>
+                                                                        <div hidden>
+                                                                            <input type="text" id="empId-{{ employees[employee].empId }}" value="{{ employees[employee].empId }}" name="empId"/>
+                                                                            <input type="text" id="submitType-{{ employees[employee].empId }}" name="submitType" value="delete"/>
+                                                                            <input type="text" id="locId-{{ employees[employee].empId }}" name="locId" value="{{ employees[employee].locId }}"/>
+                                                                        </div>
+                                                                        <div>&nbsp;</div>
+                                                                    </form>
+                                                                    <button id="post1-{{ employees[employee].empId }}" class="btn btn-secondary float-left" name="command" 
+                                                                                value="update" onclick="submitForm('{{ employees[employee].displayName }}', '{{ employees[employee].empId }}', 'update')">
+                                                                            Update Employee</button>
+                                                                    <button id="post2-{{ employees[employee].empId }}" class="btn btn-danger float-right" name="command" value="delete" onclick="submitForm('{{ employees[employee].displayName }}', '{{ employees[employee].empId }}', 'delete')">
+                                                                        Delete Employee</button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {% endfor %}
+                                    </td></tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                             <!-- [ Main Content ] end -->
                         </div>                  
                     </div>
@@ -197,10 +377,64 @@
     $(document).ready(function(){
         $("#searchEmployees").on("keyup", function() {
             var value = $(this).val().toLowerCase();
-            $("#pageWrapper *").filter(function() {
-                $(this).toggle($(this.id).text().toLowerCase().indexOf(value) > -1);
+            $("#pageWrapper tr").filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
             });
         });
     });
+
+    function toggleAddEmployee(cmd) {
+        if (cmd=='hide') {
+            document.getElementById("pageHeader").style.display = "none";
+            document.getElementById("addEmployeeToggle").style.display = "none";
+            document.getElementById("newEmployee").style.display = "block";    
+            document.getElementById("pageWrapper").style.display = "none";
+        }
+        if (cmd=='show') {
+            if (confirm('Are you sure you want to cancel adding new employee?')) {
+                document.getElementById("pageHeader").style.display = "block";
+                document.getElementById("addEmployeeToggle").style.display = "block";
+                document.getElementById("newEmployee").style.display = "none";    
+                document.getElementById("pageWrapper").style.display = "block";
+
+                document.getElementById("displayName").value = "";
+                document.getElementById("firstName").value = "";                                                                                                               
+                document.getElementById("lastName").value = "";
+                document.getElementById("phone").value = "";
+                document.getElementById("emailAddress").value = "";
+                document.getElementById("abcExpire").value = "";
+                document.getElementById("abcBookLocation").value = "";
+
+                document.getElementById("monAM").checked = false;
+                document.getElementById("tueAM").checked = false;
+                document.getElementById("wedAM").checked = false;
+                document.getElementById("thuAM").checked = false;
+                document.getElementById("friAM").checked = false;
+                document.getElementById("satAM").checked = false;
+                document.getElementById("sunAM").checked = false;
+
+                document.getElementById("monPM").checked = false;
+                document.getElementById("tuePM").checked = false;
+                document.getElementById("wedPM").checked = false;
+                document.getElementById("thuPM").checked = false;
+                document.getElementById("friPM").checked = false;
+                document.getElementById("satPM").checked = false;
+                document.getElementById("sunPM").checked = false;                                                   
+            }
+        }
+    }
+
+    function submitForm(empName, empId, cmd) {
+        document.getElementById("submitType-" + empId).value = cmd;
+        formName = "frm-" + empId;
+
+        if (cmd=="update") {
+            document.getElementById(formName).submit();
+        } else if (cmd=="delete") {
+            if (window.confirm("Are you sure you want to delete employee " + empName + "?\n\nWarning: This action cannot be undone!")) {
+                document.getElementById(formName).submit();
+            }
+        } 
+    }
 </script> 
 {% endblock javascripts %}

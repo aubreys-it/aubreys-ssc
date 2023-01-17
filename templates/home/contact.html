@@ -1,0 +1,83 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <!--[ ABC Expirations ] start-->
+                                <div class="col-xl-8 col-md-6">
+                                    <div class="card Recent-Users">
+                                        <div class="card-header">
+                                            <h5>Contact Employees</h5>
+                                        </div>
+                                        <div class="card-body" {% if rq_method == "POST" %}hidden{% endif %}>
+                                            <p>Use the form below to send an emailed copy to all employees of any upcoming shifts.</p>
+                                            <p><i><small>only employees with valid emails will receive a message</small></i></p>
+                                        </div>
+                                        <div class="card-body" {% if rq_method == "GET" %}hidden{% endif %}>
+                                            <p>The schedule has been sent.</p>
+                                            <p>Please contact <i><a href="mailto:it@aubreys.group">it@aubreys.group</a></i> if you notice any issues.</p>
+                                        </div>
+                                    </div>
+                                    <div class="card Recent-Users">
+                                        <div class="card-body" id="emailForm" {% if rq_method == "POST" %}hidden{% endif %}>
+                                            <form class="" action="" method="post">
+                                                <div class="form-group col-10">
+                                                    <label for="senderName">From</label>
+                                                    <input type="text" class="form-control" id="senderName" 
+                                                        value="{{ user['fullName'] }}" name="senderName"/>
+                                                </div>
+                                                <div class="form-group col-10">
+                                                    <label for="replyTo">Reply To</label>
+                                                    <input type="text" class="form-control" id="replyTo" 
+                                                        value="{{ user['emailAddress'] }}" name="replyTo"/>
+                                                </div>
+                                                <div class="form-group col-10">
+                                                    <label for="scheduleDate">Schedule Date</label>
+                                                    <input type="date" class="form-control" id="scheduleDate" name="scheduleDate"
+                                                        value="{{ schedDate }}"/>
+                                                </div>
+                                                <div class="form-group col-10">
+                                                    <label for="additionalMessage">Additional Message</label>
+                                                    <textarea class="form-control" rows="6" name="additionalMessage" id="additionalMessage"></textarea>
+                                                </div>
+                                                <div class="form-group col-10">
+                                                    <button id="sendSchedule" class="btn btn-primary float-left" name="command" value="submit">
+                                                        Send Schedule
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--[ ABC Expirations ] end-->
+                            <!-- [ Main Content ] end -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->            
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}

@@ -1,0 +1,327 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Page Blank {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+    <style type="text/css">
+        .printArea {
+            width: 8.5in;
+        }
+
+        .primaryTable {
+            page-break-after: always;
+            page-break-inside: avoid;
+            margin-bottom: 20px;
+        }
+
+        .header {
+            text-align: center;
+            width: 100%;
+            border-bottom: 1px solid black;
+            text-transform: uppercase;
+            padding-bottom: 5px;
+            font-weight: bold;
+            font-size: 30px;
+        }
+
+        .AmPmHeading {
+            font-weight: bold;
+            text-align: center;
+            font-size: 25px;
+            height: 20px;
+        }
+
+        table {
+            font-size: 20px;
+            text-align: center;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .schedule table,
+        .schedule th,
+        .schedule td {
+            border-bottom: 1px solid black;
+        }
+
+        .tbl {
+            vertical-align: top;
+        }
+
+        .box-tbl td,
+        .box-tbl table {
+            font-size: 17px;
+            text-align: left;
+            width: 100%;
+            border-bottom: 0px;
+        }
+
+        .tbl-1 {
+            /* float: left; */
+            border-top: 1px solid black;
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+            padding-bottom: 1em;
+        }
+
+        .tbl-2 {
+            /* float: left; */
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+            padding-bottom: 1em;
+        }
+
+        .tbl-3 {
+            /* float: left; */
+            border-bottom: 1px solid black;
+            border-left: 1px solid black;
+            border-right: 1px solid black;
+            padding-bottom: 1em;
+        }
+
+        .tbl-name {
+            border-right: 1px solid black;
+            text-align: left;
+        }
+
+        .disclaimer {
+            text-align: left;
+            font-size: 15px;
+            display: inline-block;
+            padding-top: 20px;
+        }
+
+        .TgBar {
+            margin-left: 10%;
+            min-width: 210px;
+            width: 80%;
+            text-align: left;
+            margin-right: 10%;
+            text-align: center;
+        }
+
+        .Box {
+            border: 1px solid black;
+            /* display: inline-block; */
+            text-transform: uppercase;
+            padding: 5px;
+            font-size: 17px;
+            margin-top: 20px;
+        }
+
+        .BoxHead {
+            border-bottom: 1px solid black;
+            width: 100%;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .in-times {
+            width: 25%;
+        }
+
+        .togoBar {
+            height: 100%;
+            position: relative;
+            bottom: 0;
+        }
+
+        body {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        @media only print {
+            body { visibility: hidden; }
+            .scheduleHeader {
+                position: absolute;
+                top: -500px;
+            }
+            .primaryTable { 
+                position: relative;
+                visibility: visible; 
+                width: 140%;
+                left: -264px;
+            }
+        }
+    </style>
+    {% endblock stylesheets %}
+
+    {% block content %}
+   
+    <div class="pcoded-main-container printArea">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header" id="pageHeader">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <div>&nbsp;</div>
+                                        <div class="scheduleHeader">
+                                            <table>
+                                                <tr>
+                                                    <td align="left">
+                                                        <div>
+                                                            <h4 class="m-b-10">Employee Schedule</h4>
+                                                        </div>
+                                                    </td>
+                                                    <td align="right">
+                                                        <form clas="form-inline" action="" method="post">
+                                                            <div class="input-group col-8">
+                                                                <input type="date" class="form-control bg-info text-light" id="scheduleDate" name="scheduleDate" value="{{ dateValue }}"/>
+                                                                <button type="submit" class="btn btn-secondary" name="command" value="changeDate" >Go</button>
+                                                            </div>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td></td>
+                                                    <td align="right">
+                                                        <div class="input-group col-8">
+                                                            <button class="btn btn-warning" name="command" value="printSchedule" onClick="printMe()">Print Schedule</button>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    <hr/>
+                                    </div>
+                                    <div>
+                                    {% for day in schedule %}
+                                        <table class="primaryTable" id="primaryTable">
+                                            <tr>
+                                                <td>
+                                                    <table>
+                                                        <tr class="header">
+                                                            <td colspan="2">
+                                                                {% if schedule[day].dayName != "Monday" %}
+                                                                    <div>&nbsp;</div>
+                                                                    <div>&nbsp;</div>
+                                                                {% endif %}
+                                                                {{ schedule[day].dayName }} ({{ schedule[day].shiftDate }})</td>
+                                                            <td></td>
+                                                        </tr>
+                                                        <tr class="AmPmHeading">
+                                                            <td style="width: 50%;">AM</td>
+                                                            <td>PM</td>
+                                                        </tr>
+                                                        <tr>
+                                                            {% for dayPart in schedule[day] %}
+                                                                {% if dayPart=="1" or dayPart=="2" %}
+                                                                <td class="tbl-1 tbl">
+                                                                    <table class="schedule">
+                                                                        <tr>
+                                                                            <th>#</th>
+                                                                            <th>Name</th>
+                                                                            <th>Picking Up Shift</th>
+                                                                        </tr>
+                                                                        {% for server in schedule[day][dayPart].servers %}
+                                                                        <tr>
+                                                                            <td class="tbl-number">{{ server.shiftDisplay }}&nbsp;</td>
+                                                                            <td class="tbl-name">{{ server.displayName }}</td>
+                                                                            <td class="tbl-blank">&nbsp;</td>
+                                                                        </tr>
+                                                                        {% endfor %}
+                                                                    </table>
+                                                                </td>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </tr>
+                                                        <tr>
+                                                            {% for dayPart in schedule[day] %}
+                                                                {% if dayPart=="1" or dayPart=="2" %}
+                                                                <td class="tbl-2 tbl">       
+                                                                    <div class="TgBar Box">
+                                                                        <div class="times box-tbl">
+                                                                            <table>
+                                                                                <tr>
+                                                                                    <td><b>&nbsp;{% if dayPart=='1' %}AM{% else %}PM{% endif %} ToGo: {{ schedule[day][dayPart].togo.inTime }}</b></td>
+                                                                                </tr>
+                                                                                {% for employee in schedule[day][dayPart].togo.employees %}
+                                                                                <tr>
+                                                                                    <td>{{ employee.displayName }}</td>
+                                                                                </tr>
+                                                                                {% endfor %}
+                                                                                <tr><td>&nbsp;</td></tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <b>&nbsp;{% if dayPart=='1' %}AM{% else %}PM{% endif %} Bar</b>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                {% for bartender in schedule[day][dayPart].bartenders %}
+                                                                                <tr>
+                                                                                    <td>{{ bartender.shiftDisplay }} - {{ bartender.displayName }}</td>
+                                                                                </tr>
+                                                                                {% endfor %}
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </tr>
+                                                        <tr>
+                                                            {% for dayPart in schedule[day] %}
+                                                                {% if dayPart=="1" or dayPart=="2" %}
+                                                                <td class="tbl-3 tbl">
+                                                                    <div class="TgBar Box">
+                                                                        <div class="Boxhead">
+                                                                            <b>{% if dayPart=='1' %}AM{% else %}PM{% endif %} IN TIMES</b>
+                                                                        </div>
+                                                                        <div class="times box-tbl in-times">
+                                                                            <table>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        {{ schedule[day][dayPart].servers[0].inTimes }}
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>   
+                                                                </td>
+                                                                {% endif %}
+                                                            {% endfor %}
+                                                        </tr>
+                                                        <tr>
+                                                            <td colspan="2">
+                                                                <div class="disclaimer">{{ footer }}</div>
+                                                            </td>
+                                                            <td></td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+    <script type="text/javascript">
+        function printMe() {
+            window.print();
+        }
+
+        function setToMonday(date) {
+            var day = date.getDay() || 7;
+            if(day !== 1)
+                date.setHours(-24 * (day - 1));
+            return date;
+        }
+
+    </script>
+{% endblock javascripts %}

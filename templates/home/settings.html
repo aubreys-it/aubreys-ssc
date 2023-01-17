@@ -1,0 +1,145 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Page Blank {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link href="/static/assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header" id="pageHeader">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <div>&nbsp;</div>
+                                        <div>
+                                            <h4 class="m-b-10">Schedule Settings</h4>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="card-columns">
+                                {% for setting in settings %}
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <h4 class="card-title">{{ settings[setting].shiftName }}</h4>
+                                                <hr/>
+                                                <form id="frm-{{ settings[setting].shiftId }}" action="" method="post">
+                                                    <div hidden>
+                                                        <input type="text" id="shiftId-{{ settings[setting].shiftId }}" value="{{ settings[setting].shiftId }}" name="shiftId"/>
+                                                    </div>
+                                                    <div>
+                                                        <input type="checkbox" id="mustCallNeeded-{{ settings[setting].shiftId }}" name="mustCallNeeded"
+                                                            {% if settings[setting].mustCallNeeded %}checked{% endif %}/>&nbsp;&nbsp;Must Call Needed
+                                                    </div>
+                                                    <br/>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label for="openShifts-{{ settings[setting].shiftId }}">
+                                                                {% if settings[setting].dayPart == 1 %}AM
+                                                                {% elif settings[setting].dayPart == 2 %}PM
+                                                                {% endif %}Open Shifts</label>
+                                                            <input type="number" id="openShifts-{{ settings[setting].shiftId }}" name="openShifts" min="0" max="20"
+                                                                value="{{ settings[setting].openShifts }}" class="form-control col-6"/>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div>
+                                                            <label>
+                                                                {% if settings[setting].dayPart == 1 %}AM
+                                                                {% elif settings[setting].dayPart == 2 %}PM
+                                                                {% endif %}ToGo
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="text" id="togoInTime-{{ settings[setting].shiftId }}" name="togoInTime"
+                                                                value="{{ settings[setting].togoInTime }}" class="form-control col-3" style="display:inline-block;"/>
+                                                            <input type="text" id="togo-{{ settings[setting].shiftId }}" name="togo"
+                                                                value="{{ settings[setting].togo }}" class="form-control col-8 form-inline" style="display:inline-block;"/>
+                                                            <label class="col-3">&nbsp;</label>
+                                                            <label class="col-8"><i><small>separate multiple employees with a semi-colon</small></i></label>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <label>
+                                                            {% if settings[setting].dayPart == 1 %}AM
+                                                            {% elif settings[setting].dayPart == 2 %}PM
+                                                            {% endif %}Bartenders
+                                                        </label>
+                                                        <input type="text" id="bartenders-{{ settings[setting].shiftId }}" name="bartenders"
+                                                            value="{{ settings[setting].bartenders }}" class="form-control col-11"/>
+                                                        <label><i><small>separate multiple employees with a semi-colon</small></i></label>
+                                                    </div>
+                                                    <div>
+                                                        <input type="checkbox" id="autoRotateBar-{{ settings[setting].shiftId }}" name="autoRotateBar"
+                                                            {% if settings[setting].autoRotateBar %}checked{% endif %}/>&nbsp;&nbsp;Auto Rotate Bartenders
+                                                    </div>
+                                                    <br/>
+                                                    <div>
+                                                        <label for="inTimes-{{ settings[setting].shiftId }}">In Times</label>
+                                                    </div>
+                                                    <div>
+                                                        <textarea class="form-control" rows="6" name="inTimes">{{ settings[setting].inTimes }}</textarea>
+                                                    </div>
+                                                    <br/>
+                                                    <div>
+                                                        <button id="post1-{{ settings[setting].shiftId }}" class="btn btn-secondary float-left" name="command" value="update">
+                                                            Update Settings
+                                                        </button>
+                                                    </div>
+                                                    <div>&nbsp;</div>
+                                                </form>
+                                            </div>
+                                        </div>       
+                                {% endfor %}
+                            </div>
+                            <div class="card col-10">
+                                <form id="scheduleFooter" action="" method="post">
+                                    <div>&nbsp;</div>
+                                    <div>
+                                        <h4 class="card-title">Schedule Notes</h4>
+                                    </div>
+                                    <div>
+                                        <textarea class="form-control" rows="6" name="footer" id="footer">{{ footer }}</textarea>
+                                    </div>
+                                    <br/>
+                                    <div>
+                                        <button id="scheduleFooterSubmit" class="btn btn-secondary float-left" name="command" value="updateFooter">
+                                            Update Schedule Notes
+                                        </button>
+                                    </div>
+                                    <div>&nbsp;</div>
+                                </form>
+                                <div>&nbsp;</div>
+                            </div>
+                        <!-- [ Main Content ] end -->
+                        </div>                  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+    
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}{% endblock javascripts %}
