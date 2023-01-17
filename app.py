@@ -167,7 +167,6 @@ def contact():
         postDict['additionalMessage'] = request.form.get("additionalMessage")   
 
         response = sendMessage(postDict) 
-        return render_template('home/debug.html', info=postDict)
     
     return render_template('home/contact.html', user=user, rq_method=request.method, schedDate=dateValue)
 
