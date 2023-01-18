@@ -9,22 +9,14 @@ app = Flask(__name__)
 
 user = {}
 
-try:
-    if not user:
-        user = loadUserFromDMCP()
-except NameError:
-    user = loadUserFromDMCP()
-
 @app.route('/')
 def index():
     
-    '''
     try:
         if not user:
             user = loadUserFromDMCP()
     except NameError:
         user = loadUserFromDMCP()
-    '''
 
     try:
         if not expiry:
@@ -42,13 +34,11 @@ def favicon():
 @app.route('/employees.html', methods=["GET", "POST"])
 def employees():
 
-    '''
     try:
         if not user:
             user = loadUserFromDMCP()
     except NameError:
         user = loadUserFromDMCP()
-    '''
 
     if request.method =="POST":
         
@@ -90,13 +80,11 @@ def employees():
 @app.route('/settings.html', methods=["GET", "POST"])
 def settings():
 
-    '''
     try:
         if not user:
             user = loadUserFromDMCP()
     except NameError:
         user = loadUserFromDMCP()
-    '''
 
     if request.method == "POST":
     
@@ -130,14 +118,12 @@ def settings():
 @app.route('/schedule.html', methods=["GET", "POST"])
 def schedule():
 
-    '''
     try:
         if not user:
             user = loadUserFromDMCP()
     except NameError:
         user = loadUserFromDMCP()
-    '''
-    
+
     if request.method == "GET":
         date = datetime.datetime.now()
     elif request.method == "POST":
