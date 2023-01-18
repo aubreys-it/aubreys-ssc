@@ -219,7 +219,7 @@
                                                                             <th>Name</th>
                                                                             <th>Picking Up Shift</th>
                                                                         </tr>
-                                                                        {% for server in schedule[day][dayPart].servers if servers in schedule[day][dayPart] %}
+                                                                        {% for server in schedule[day][dayPart].servers %}
                                                                         <tr>
                                                                             <td class="tbl-number">{{ server.shiftDisplay }}&nbsp;</td>
                                                                             <td class="tbl-name">{{ server.displayName }}</td>
