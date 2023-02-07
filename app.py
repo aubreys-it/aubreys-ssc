@@ -1,6 +1,6 @@
 from datetime import datetime
 import os
-from flask import Flask, render_template, redirect, url_for, send_from_directory, request
+from flask import Flask, render_template, redirect, url_for, send_from_directory, request, send_file
 from aubssc import loadUserFromDMCP, getAbcExpiry
 from aubssc import getEmployees, updateEmployee, deleteEmployee, addEmployee, getSettings, updateSettings, getCalendar, getFooter, updateFooter, sendMessage
 import datetime
@@ -166,9 +166,19 @@ def contact():
         postDict['locId'] = user['locId']
         postDict['replyTo'] = request.form.get("replyTo")
         postDict['scheduleDate'] = dateValue
-        postDict['additionalMessage'] = request.form.get("additionalMessage")   
+        postDict['additionalMessage'] = request.form.get("additionalMessage") 
+        
+        date = datetime.datetime.strptime(dateValue, "%Y-%m-%d").date()
+        date += datetime.timedelta(days=-date.weekday())
+        year = str(date.year)
+        month = str(date.month).zfill(2)
+        day = str(date.day).zfill(2)
+        dateString = f"{year}{month}{day}"
+        dateValue = f"{year}-{month}-{day}"
 
-        response = sendMessage(postDict) 
+        postDict['html'] = render_template('home/schedule.html', user=user, schedule=getCalendar(user['locId'], dateString), footer=getFooter(user['locId']), dateValue=dateValue)
+
+        response = sendMessage(postDict)
     
     return render_template('home/contact.html', user=user, rq_method=request.method, schedDate=dateValue)
 

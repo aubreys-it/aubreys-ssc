@@ -27,7 +27,8 @@ class abcExpiry:
         self.abcBookLocation = serverInfo[8]
 
 def loadUserFromDMCP():
-    userId = request.headers.get('X-Ms-Client-Principal-Name')
+    #userId = request.headers.get('X-Ms-Client-Principal-Name')
+    userId = 'ghouser@aubreys.group'
     
     conn = pyodbc.connect(config.DMCP_CONNECT_STRING)
     dmcp = conn.cursor()
