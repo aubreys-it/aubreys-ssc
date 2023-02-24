@@ -238,38 +238,46 @@
                                                                     <div class="TgBar Box">
                                                                         <div class="times box-tbl">
                                                                             <table>
-                                                                                <tr>
-                                                                                    <td><b>&nbsp;{% if dayPart=='1' %}AM{% else %}PM{% endif %} ToGo: {{ schedule[day][dayPart].togo.inTime }}</b></td>
-                                                                                </tr>
-                                                                                {% for employee in schedule[day][dayPart].togo.employees %}
-                                                                                <tr>
-                                                                                    <td>{{ employee.displayName }}</td>
-                                                                                </tr>
-                                                                                {% endfor %}
-                                                                                <tr><td>&nbsp;</td></tr>
+                                                                                <!-- ToGo Section -->
+                                                                                {% if schedule[day][dayPart].togo.employees %}
+                                                                                    <tr>
+                                                                                        <td><b>&nbsp;{% if dayPart=='1' %}AM{% else %}PM{% endif %} ToGo: {{ schedule[day][dayPart].togo.inTime }}</b></td>
+                                                                                    </tr>
+                                                                                    {% for employee in schedule[day][dayPart].togo.employees %}
+                                                                                        <tr>
+                                                                                            <td>{{ employee.displayName }}</td>
+                                                                                        </tr>
+                                                                                    {% endfor %}
+                                                                                    <tr><td>&nbsp;</td></tr>
+                                                                                {% endif %}
+                                                                                <!-- End ToGo Section -->
                                                                                 <!-- Hosts section -->
                                                                                 {% if schedule[day][dayPart].hosts %}
-                                                                                <tr>
-                                                                                    <td><b>&nbsp;{% if dayPart=='1' %}AM{% else %}PM{% endif %} Hosts</b></td>
-                                                                                </tr>
-                                                                                {% for employee in schedule[day][dayPart].hosts %}
-                                                                                <tr>
-                                                                                    <td>{{ employee.displayName }}</td>
-                                                                                </tr>
-                                                                                {% endfor %}
-                                                                                <tr><td>&nbsp;</td></tr>
+                                                                                    <tr>
+                                                                                        <td><b>&nbsp;{% if dayPart=='1' %}AM{% else %}PM{% endif %} Hosts</b></td>
+                                                                                    </tr>
+                                                                                    {% for employee in schedule[day][dayPart].hosts %}
+                                                                                        <tr>
+                                                                                            <td>{{ employee.displayName }}</td>
+                                                                                        </tr>
+                                                                                    {% endfor %}
+                                                                                    <tr><td>&nbsp;</td></tr>
                                                                                 {% endif %}
                                                                                 <!-- End Hosts Section -->
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <b>&nbsp;{% if dayPart=='1' %}AM{% else %}PM{% endif %} Bar</b>
-                                                                                    </td>
-                                                                                </tr>
-                                                                                {% for bartender in schedule[day][dayPart].bartenders %}
-                                                                                <tr>
-                                                                                    <td>{{ bartender.shiftDisplay }} - {{ bartender.displayName }}</td>
-                                                                                </tr>
-                                                                                {% endfor %}
+                                                                                <!-- Bartender Section -->
+                                                                                {% if schedule[day][dayPart].bartenders %}
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <b>&nbsp;{% if dayPart=='1' %}AM{% else %}PM{% endif %} Bar</b>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    {% for bartender in schedule[day][dayPart].bartenders %}
+                                                                                        <tr>
+                                                                                            <td>{{ bartender.shiftDisplay }} - {{ bartender.displayName }}</td>
+                                                                                        </tr>
+                                                                                    {% endfor %}
+                                                                                {% endif %}
+                                                                                <!-- End Bartender Section -->
                                                                             </table>
                                                                         </div>
                                                                     </div>
