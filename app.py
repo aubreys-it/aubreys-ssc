@@ -96,6 +96,7 @@ def settings():
             postDict['bartenders'] = request.form.get('bartenders')
             postDict['inTimes'] = request.form.get('inTimes')
             postDict['togoInTime'] = request.form.get('togoInTime')
+            postDict['hosts'] = request.form.get('hosts')
             postDict['locId'] = user['locId']
 
             if request.form.get('autoRotateBar'):

@@ -76,6 +76,18 @@
                                                             <label class="col-8"><i><small>separate multiple employees with a semi-colon</small></i></label>
                                                         </div>
                                                     </div>
+                                                    {% if settings[setting].showHosts == 1 %}
+                                                        <div>
+                                                            <label>
+                                                                {% if settings[setting].dayPart == 1 %}AM
+                                                                {% elif settings[setting].dayPart == 2 %}PM
+                                                                {% endif %}Hosts
+                                                            </label>
+                                                            <input type="text" id="hosts-{{ settings[setting].shiftId }}" name="hosts"
+                                                                value="{{ settings[setting].hosts }}" class="form-control col-11"/>
+                                                            <label><i><small>separate multiple employees with a semi-colon</small></i></label>
+                                                        </div>
+                                                    {% endif %}
                                                     <div>
                                                         <label>
                                                             {% if settings[setting].dayPart == 1 %}AM

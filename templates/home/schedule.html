@@ -247,6 +247,19 @@
                                                                                 </tr>
                                                                                 {% endfor %}
                                                                                 <tr><td>&nbsp;</td></tr>
+                                                                                <!-- Hosts section -->
+                                                                                {% if schedule[day][dayPart].hosts %}
+                                                                                <tr>
+                                                                                    <td><b>&nbsp;{% if dayPart=='1' %}AM{% else %}PM{% endif %} Hosts</b></td>
+                                                                                </tr>
+                                                                                {% for employee in schedule[day][dayPart].hosts %}
+                                                                                <tr>
+                                                                                    <td>{{ employee.displayName }}</td>
+                                                                                </tr>
+                                                                                {% endfor %}
+                                                                                <tr><td>&nbsp;</td></tr>
+                                                                                {% endif %}
+                                                                                <!-- End Hosts Section -->
                                                                                 <tr>
                                                                                     <td>
                                                                                         <b>&nbsp;{% if dayPart=='1' %}AM{% else %}PM{% endif %} Bar</b>
