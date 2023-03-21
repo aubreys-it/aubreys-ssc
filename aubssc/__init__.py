@@ -4,6 +4,7 @@ import config
 from flask import request
 import requests
 import json
+import logging
 
 class user:
     def __init__(self, userInfo):
@@ -28,7 +29,7 @@ class abcExpiry:
 
 def loadUserFromDMCP():
     userId = request.headers.get('X-Ms-Client-Principal-Name')
-    
+
     conn = pyodbc.connect(config.DMCP_CONNECT_STRING)
     dmcp = conn.cursor()
 
@@ -83,7 +84,13 @@ def addEmployee(payload):
 def getSettings(locId):
     uri = f"{config.API_BASE_URI}get-settings?code={config.GET_SET_CODE}&locId={locId}"
     response = requests.request('GET', uri)
-    return json.loads(response.text)
+    settings = json.loads(response.text)
+    for shift in settings:
+        if settings[shift]['inTimes']:
+            settings[shift]['inTimes'] = settings[shift]['inTimes'].split('\r\n')
+        else:
+            settings[shift]['inTimes'] = [' ']
+    return settings
 
 def updateSettings(payload):
     uri = f"{config.API_BASE_URI}update-settings?code={config.UPD_SET_CODE}"
@@ -93,7 +100,17 @@ def updateSettings(payload):
 def getCalendar(locId, dateString):
     uri = f"{config.API_BASE_URI}get-calendar?code={config.GET_CAL_CODE}&locId={locId}&weekStart={dateString}"
     response = requests.request('GET', uri)
-    return json.loads(response.text)
+    calendar = json.loads(response.text)
+    for day in calendar:
+        for shift in calendar[day]:
+            if shift in ['1', '2']:
+                for server in calendar[day][shift]['servers']:
+                    if server['inTimes']:
+                        server['inTimes'] = server['inTimes'].split('\r\n')
+                    else:
+                        server['inTimes'] = [' ']
+                        
+    return calendar
 
 def getFooter(locId):
     conn = pyodbc.connect(config.DMCP_CONNECT_STRING)
@@ -106,7 +123,7 @@ def getFooter(locId):
     dmcp.close()
     conn.close()
 
-    return footer[0]
+    return footer[0].split('\r\n')
 
 def updateFooter(locId, footer):
     conn = pyodbc.connect(config.DMCP_CONNECT_STRING)

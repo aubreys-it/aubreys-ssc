@@ -104,10 +104,14 @@ def settings():
             else:
                 postDict['autoRotateBar'] = 0
 
-            if request.form.get('mustCallNeeded'):
-                postDict['mustCallNeeded'] = 1
+            if user['locId'] in [0, 13]:
+                postDict['mustCallNeeded'] = request.form['mustCallNeeded']
             else:
-                postDict['mustCallNeeded'] = 0
+                if request.form.get('mustCallNeeded'):
+                    postDict['mustCallNeeded'] = 1
+                else:
+                    postDict['mustCallNeeded'] = 0
+
 
             result = updateSettings(postDict)
 
@@ -182,6 +186,24 @@ def contact():
         response = sendMessage(postDict)
     
     return render_template('home/contact.html', user=user, rq_method=request.method, schedDate=dateValue)
+
+@app.route('/phonelist.html', methods=["GET", "POST"])
+def phonelist():
+
+    try:
+        if not user:
+            user = loadUserFromDMCP()
+    except NameError:
+        user = loadUserFromDMCP()
+
+    employees = getEmployees(user['locId'])
+    for employee in employees:
+        if int(employee) % 2 == 0:
+            employees[employee]['bgcolor'] = '#fff'
+        else:
+            employees[employee]['bgcolor'] = '#f0f0f0'
+
+    return render_template('home/phonelist.html', user=user, employees=employees)
 
 if __name__ == '__main__':
    app.run()

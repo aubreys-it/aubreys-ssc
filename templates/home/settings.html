@@ -44,10 +44,24 @@
                                                     <div hidden>
                                                         <input type="text" id="shiftId-{{ settings[setting].shiftId }}" value="{{ settings[setting].shiftId }}" name="shiftId"/>
                                                     </div>
-                                                    <div>
-                                                        <input type="checkbox" id="mustCallNeeded-{{ settings[setting].shiftId }}" name="mustCallNeeded"
-                                                            {% if settings[setting].mustCallNeeded %}checked{% endif %}/>&nbsp;&nbsp;Must Call Needed
-                                                    </div>
+                                                    {% if user['locId'] in [0, 13] %}
+                                                        <div class="form-inline">
+                                                            <label for="mustCalls-{{ settings[setting].shiftId }}">Must Calls Needed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                            <input type="radio" id="mc0" name="mustCallNeeded" value="0" {% if settings[setting].mustCallNeeded == 0 %}checked="checked"{% endif %}>
+                                                            <label for="mc0">&nbsp;0&nbsp;&nbsp;&nbsp;</label>
+                                                            <input type="radio" id="mc1" name="mustCallNeeded" value="1" {% if settings[setting].mustCallNeeded == 1 %}checked="checked"{% endif %}>
+                                                            <label for="mc1">&nbsp;1&nbsp;&nbsp;&nbsp;</label>
+                                                            <input type="radio" id="mc2" name="mustCallNeeded" value="2" {% if settings[setting].mustCallNeeded == 2 %}checked="checked"{% endif %}>
+                                                            <label for="mc2">&nbsp;2&nbsp;&nbsp;&nbsp;</label>
+                                                            <input type="radio" id="mc3" name="mustCallNeeded" value="3" {% if settings[setting].mustCallNeeded == 3 %}checked="checked"{% endif %}>
+                                                            <label for="mc3">&nbsp;3&nbsp;&nbsp;&nbsp;</label>
+                                                        </div>
+                                                    {% else %}
+                                                        <div>
+                                                            <input type="checkbox" id="mustCallNeeded-{{ settings[setting].shiftId }}" name="mustCallNeeded"
+                                                                {% if settings[setting].mustCallNeeded %}checked{% endif %}/>&nbsp;&nbsp;Must Call Needed
+                                                        </div>
+                                                    {% endif %}
                                                     <br/>
                                                     <div>
                                                         <div class="form-group">
@@ -107,7 +121,7 @@
                                                         <label for="inTimes-{{ settings[setting].shiftId }}">In Times</label>
                                                     </div>
                                                     <div>
-                                                        <textarea class="form-control" rows="6" name="inTimes">{{ settings[setting].inTimes }}</textarea>
+                                                        <textarea class="form-control" rows="6" name="inTimes">{{ '\r\n'.join(settings[setting].inTimes) }}</textarea>
                                                     </div>
                                                     <br/>
                                                     <div>
@@ -128,7 +142,7 @@
                                         <h4 class="card-title">Schedule Notes</h4>
                                     </div>
                                     <div>
-                                        <textarea class="form-control" rows="6" name="footer" id="footer">{{ footer }}</textarea>
+                                        <textarea class="form-control" rows="6" name="footer" id="footer">{{ '\r\n'.join(footer) }}</textarea>
                                     </div>
                                     <br/>
                                     <div>

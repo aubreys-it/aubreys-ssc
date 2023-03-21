@@ -1,0 +1,140 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Phone List {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+    <style type="text/css">
+        .printArea {
+            width: 8.5in;
+        }
+
+        .primaryTable {
+            page-break-after: always;
+            page-break-inside: avoid;
+            margin-bottom: 20px;
+        }
+
+        .primaryTable th {
+            text-align: left;
+        }
+
+        .header {
+            text-align: center;
+            width: 100%;
+            border-bottom: 1px solid black;
+            text-transform: uppercase;
+            padding-bottom: 5px;
+            font-weight: bold;
+            font-size: 30px;
+        }
+
+        .printOnly {
+            display: none;
+        }
+
+        table {
+            font-size: 20px;
+            text-align: center;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        body {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        @media only print {
+            body { visibility: hidden; }
+            .listHeader {
+                position: absolute;
+                top: -500px;
+            }
+            .primaryTable { 
+                position: relative;
+                visibility: visible; 
+                width: 140%;
+                left: -264px;
+            }
+            .printOnly {
+                display: block;
+            }
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="pcoded-main-container printArea">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header" id="pageHeader">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <div>&nbsp;</div>
+                                    <div class="listHeader">
+                                        <table>
+                                            <tr>
+                                                <td align="left">
+                                                    <div>
+                                                        <h4 class="m-b-10">Employee Phone List</h4>
+                                                    </div>
+                                                </td>
+                                                <td align="right">
+                                                    <div class="input-group col-8">
+                                                        <button class="btn btn-warning" name="command" value="printList" onClick="printMe()">Print Phone List</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <hr/>
+                                </div>
+                                <div>
+                                    <table class="primaryTable">
+                                        <thead>
+                                            <tr class="printOnly">
+                                                <td colspan="2" class="header">FOH Employee Phone List</td>
+                                            </tr>
+                                            <tr class="printOnly">
+                                                <td colspan="2">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Employee Name</th>
+                                                <th>Phone Number</th>
+                                            </tr>
+                                        </thead>
+                                        {% for employee in employees %}
+                                            <tr bgcolor="{{employees[employee].bgcolor}}" style="border: 1px solid #444">
+                                                <td align="left" style="border-right: 1px solid #444">{{ employees[employee].displayName }}</td>
+                                                <td align="left">{{ employees[employee].phone }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script type="text/javascript">
+    function printMe() {
+        window.print();
+    }
+
+</script>
+{% endblock javascripts %}

@@ -293,13 +293,11 @@
                                                                         <div class="Boxhead">
                                                                             <b>{% if dayPart=='1' %}AM{% else %}PM{% endif %} IN TIMES</b>
                                                                         </div>
-                                                                        <div class="times box-tbl in-times">
-                                                                            <table>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        {{ schedule[day][dayPart].servers[0].inTimes }}
-                                                                                    </td>
-                                                                                </tr>
+                                                                        <div class="times box-tbl">
+                                                                            <table width="100%">
+                                                                                {% for line in schedule[day][dayPart].servers[0].inTimes %}
+                                                                                    <tr><td>{{ line }}</td></tr>
+                                                                                {% endfor %}
                                                                             </table>
                                                                         </div>
                                                                     </div>   
@@ -309,7 +307,11 @@
                                                         </tr>
                                                         <tr>
                                                             <td colspan="2">
-                                                                <div class="disclaimer">{{ footer }}</div>
+                                                                <div class="disclaimer">
+                                                                    {% for footnote in footer %}
+                                                                        {{ footnote }}<br/>
+                                                                    {% endfor %}
+                                                                </div>
                                                             </td>
                                                             <td></td>
                                                         </tr>
