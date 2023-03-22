@@ -106,18 +106,16 @@
                                             <tr>
                                                 <th>Employee Name</th>
                                                 <th>Phone Number</th>
-                                                {% if user['locId'] in [12] %}
-                                                    <th>ABC Expiration</th>
-                                                {% endif %}
+                                                <th>ABC Expiration</th>
+                                                <th>Book Location</th>
                                             </tr>
                                         </thead>
                                         {% for employee in employees %}
                                             <tr bgcolor="{{employees[employee].bgcolor}}" style="border: 1px solid #444">
                                                 <td align="left" style="border-right: 1px solid #444">{{ employees[employee].displayName }}</td>
                                                 <td align="left" style="border-right: 1px solid #444">{{ employees[employee].phone }}</td>
-                                                {% if user['locId'] in [12] %}
-                                                    <td align="left" style="border-right: 1px solid #444">{{ employees[employee].abcExpire }}</td>
-                                                {% endif %}
+                                                <td align="left" style="border-right: 1px solid #444">{{ employees[employee].abcExpire }}</td>
+                                                <td align="left" style="border-right: 1px solid #444">{{ employees[employee].abcBookLocation }}</td>
                                             </tr>
                                         {% endfor %}
                                     </table>
