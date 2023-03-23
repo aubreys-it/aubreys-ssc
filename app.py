@@ -98,6 +98,7 @@ def settings():
             postDict['togoInTime'] = request.form.get('togoInTime')
             postDict['hosts'] = request.form.get('hosts')
             postDict['locId'] = user['locId']
+            postDict['buildToShiftCount'] = request.form.get('buildToShiftCount')
 
             if request.form.get('autoRotateBar'):
                 postDict['autoRotateBar'] = 1
