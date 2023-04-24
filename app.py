@@ -99,13 +99,14 @@ def settings():
             postDict['hosts'] = request.form.get('hosts')
             postDict['locId'] = user['locId']
             postDict['buildToShiftCount'] = request.form.get('buildToShiftCount')
-
+            postDict['manualRotationOffset'] = request.form.get('manualRotationOffset')
+            
             if request.form.get('autoRotateBar'):
                 postDict['autoRotateBar'] = 1
             else:
                 postDict['autoRotateBar'] = 0
 
-            if user['locId'] in [0, 13]:
+            if user['locId'] in [0, 13, 23]:
                 postDict['mustCallNeeded'] = request.form['mustCallNeeded']
             else:
                 if request.form.get('mustCallNeeded'):

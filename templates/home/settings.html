@@ -73,6 +73,11 @@
                                                                 value="{{ settings[setting].buildToShiftCount }}" class="form-control col-6"/>
                                                         </div>
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label>Manual Rotation Offset</label>
+                                                        <input type="range" min="-5" max="5" value="{{ settings[setting].manualRotationOffset }}" class="slider" id="rotationOffset-{{ settings[setting].shiftId }}" name="manualRotationOffset">
+                                                        <span id="rotationOffsetValue-{{ settings[setting].shiftId }}">{{ settings[setting].manualRotationOffset }}</span>
+                                                    </div>
                                                     <div>
                                                         <div>
                                                             <label>
@@ -168,4 +173,93 @@
 {% endblock content %}
 
 <!-- Specific Page JS goes HERE  -->
-{% block javascripts %}{% endblock javascripts %}
+{% block javascripts %}
+<script>
+    var monAmSlider = document.getElementById("rotationOffset-1");
+    var monAmOutput = document.getElementById("rotationOffsetValue-1");
+
+    var monPmSlider = document.getElementById("rotationOffset-2");
+    var monPmOutput = document.getElementById("rotationOffsetValue-2");
+
+    var tueAmSlider = document.getElementById("rotationOffset-3");
+    var tueAmOutput = document.getElementById("rotationOffsetValue-3");
+
+    var tuePmSlider = document.getElementById("rotationOffset-4");
+    var tuePmOutput = document.getElementById("rotationOffsetValue-4");
+
+    var wedAmSlider = document.getElementById("rotationOffset-5");
+    var wedAmOutput = document.getElementById("rotationOffsetValue-5");
+
+    var wedPmSlider = document.getElementById("rotationOffset-6");
+    var wedPmOutput = document.getElementById("rotationOffsetValue-6");
+
+    var thuAmSlider = document.getElementById("rotationOffset-7");
+    var thuAmOutput = document.getElementById("rotationOffsetValue-7");
+
+    var thuPmSlider = document.getElementById("rotationOffset-8");
+    var thuPmOutput = document.getElementById("rotationOffsetValue-8");
+
+    var friAmSlider = document.getElementById("rotationOffset-9");
+    var friAmOutput = document.getElementById("rotationOffsetValue-9");
+
+    var friPmSlider = document.getElementById("rotationOffset-10");
+    var friPmOutput = document.getElementById("rotationOffsetValue-10");
+
+    var satAmSlider = document.getElementById("rotationOffset-11");
+    var satAmOutput = document.getElementById("rotationOffsetValue-11");
+
+    var satPmSlider = document.getElementById("rotationOffset-12");
+    var satPmOutput = document.getElementById("rotationOffsetValue-12");
+
+    var sunAmSlider = document.getElementById("rotationOffset-13");
+    var sunAmOutput = document.getElementById("rotationOffsetValue-13");
+
+    var sunPmSlider = document.getElementById("rotationOffset-14");
+    var sunPmOutput = document.getElementById("rotationOffsetValue-14");
+
+    // Update the current slider value (each time you drag the slider handle)
+    monAmSlider.oninput = function() {
+    monAmOutput.innerHTML = '&nbsp;' + this.value;
+    }
+    monPmSlider.oninput = function() {
+    monPmOutput.innerHTML = this.value;
+    }
+    tueAmSlider.oninput = function() {
+    tueAmOutput.innerHTML = this.value;
+    }
+    tuePmSlider.oninput = function() {
+    tuePmOutput.innerHTML = this.value;
+    }
+    wedAmSlider.oninput = function() {
+    wedAmOutput.innerHTML = this.value;
+    }
+    wedPmSlider.oninput = function() {
+    wedPmOutput.innerHTML = this.value;
+    }
+    thuAmSlider.oninput = function() {
+    thuAmOutput.innerHTML = this.value;
+    }
+    thuPmSlider.oninput = function() {
+    thuPmOutput.innerHTML = this.value;
+    }
+    friAmSlider.oninput = function() {
+    friAmOutput.innerHTML = this.value;
+    }
+    friPmSlider.oninput = function() {
+    friPmOutput.innerHTML = this.value;
+    }
+    satAmSlider.oninput = function() {
+    satAmOutput.innerHTML = this.value;
+    }
+    satPmSlider.oninput = function() {
+    satPmOutput.innerHTML = this.value;
+    }
+    sunAmSlider.oninput = function() {
+    sunAmOutput.innerHTML = this.value;
+    }
+    sunPmSlider.oninput = function() {
+    sunPmOutput.innerHTML = this.value;
+    }
+</script>
+
+{% endblock javascripts %}
