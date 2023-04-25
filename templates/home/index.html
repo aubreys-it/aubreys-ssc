@@ -43,7 +43,7 @@
                                             <p style="margin-left: 25px;margin-right: 25px">
                                                 <b>Staffing Summary - 2023.04.25</b><br/>
                                                 There is now a printable summary of schedule holes at the bottom of this page.<br/>
-                                                If you scroll past the Upcoming ABC Expirations, you will see each shift and the number of servers working / number of shifts needed.<br/>
+                                                If you scroll past the Upcoming ABC Expirations, you will see each shift and the number of servers working / number of holes left on the schedule.<br/>
                                                 This is a quick way to see if you are over or under staffed for the week.
                                             </p>                    
                                         </div>
@@ -146,7 +146,7 @@
                                                     <tbody>
                                                         <tr>
                                                         {% for shiftId in staffing %}
-                                                            <td>{{ staffing[shiftId].filledShifts }}&nbsp;/&nbsp;{{ staffing[shiftId].serversNeeded }}</td>
+                                                            <td>{{ staffing[shiftId].filledShifts }}&nbsp;/&nbsp;{{ staffing[shiftId].holes }}</td>
                                                         {% endfor %}
                                                         </tr>
                                                     </tbody>
