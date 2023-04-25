@@ -2,7 +2,7 @@ from datetime import datetime
 import os
 from flask import Flask, render_template, redirect, url_for, send_from_directory, request, send_file
 from aubssc import loadUserFromDMCP, getAbcExpiry
-from aubssc import getEmployees, updateEmployee, deleteEmployee, addEmployee, getSettings, updateSettings, getCalendar, getFooter, updateFooter, sendMessage
+from aubssc import getEmployees, updateEmployee, deleteEmployee, addEmployee, getSettings, updateSettings, getCalendar, getFooter, updateFooter, sendMessage, getStaffingSummary
 import datetime
 
 app = Flask(__name__)
@@ -24,7 +24,13 @@ def index():
     except NameError:
         expiry = getAbcExpiry(user['locId'])
 
-    return render_template('home/index.html', user=user, expiry=expiry)
+    try:
+        if not staffing:
+            staffing = getStaffingSummary(user['locId'])
+    except NameError:
+        staffing = getStaffingSummary(user['locId'])
+
+    return render_template('home/index.html', user=user, expiry=expiry, staffing=staffing)
 
 @app.route('/favicon.ico')
 def favicon():

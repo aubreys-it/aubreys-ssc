@@ -141,8 +141,8 @@
             .primaryTable { 
                 position: relative;
                 visibility: visible; 
-                width: 140%;
-                left: -264px;
+                width: 100%;
+                /*left: -264px;*/
             }
         }
     </style>
@@ -191,6 +191,7 @@
                                     <hr/>
                                     </div>
                                     <div>
+                                    <div id="printTable">
                                     {% for day in schedule %}
                                         <table class="primaryTable" id="primaryTable">
                                             <tr>
@@ -321,6 +322,7 @@
                                         </table>
                                     {% endfor %}
                                     </div>
+                                    </div>
                                 </div>
                             </div>
                         </div> 
@@ -336,7 +338,11 @@
 
     <script type="text/javascript">
         function printMe() {
+            var printContents = document.getElementById("printTable").innerHTML;
+            var originalContents = document.body.innerHTML;
+            document.body.innerHTML = printContents;
             window.print();
+            document.body.innerHTML = originalContents;
         }
 
         function setToMonday(date) {

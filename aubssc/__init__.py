@@ -29,7 +29,7 @@ class abcExpiry:
 
 def loadUserFromDMCP():
     userId = request.headers.get('X-Ms-Client-Principal-Name')
-
+    
     conn = pyodbc.connect(config.DMCP_CONNECT_STRING)
     dmcp = conn.cursor()
 
@@ -141,3 +141,10 @@ def updateFooter(locId, footer):
 def sendMessage(payload):
     response = requests.request('POST', config.SEND_MESSAGE_URI, json=payload)
     return response
+
+def getStaffingSummary(locId):
+    uri = f"{config.API_BASE_URI}get-staffing?code={config.GET_STAFFING}&locId={locId}"
+    response = requests.request('GET', uri)
+    return json.loads(response.text)
+
+    
