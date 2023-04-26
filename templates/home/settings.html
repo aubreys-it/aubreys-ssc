@@ -44,7 +44,7 @@
                                                     <div hidden>
                                                         <input type="text" id="shiftId-{{ settings[setting].shiftId }}" value="{{ settings[setting].shiftId }}" name="shiftId"/>
                                                     </div>
-                                                    {% if user['locId'] in [0, 13, 23] %}
+                                                    {% if user['locId'] in [0, 13, 14, 23] %}
                                                         <div class="form-inline">
                                                             <label for="mustCalls-{{ settings[setting].shiftId }}">Must Calls Needed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                             <input type="radio" id="mc0" name="mustCallNeeded" value="0" {% if settings[setting].mustCallNeeded == 0 %}checked="checked"{% endif %}>

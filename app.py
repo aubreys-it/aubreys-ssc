@@ -112,7 +112,7 @@ def settings():
             else:
                 postDict['autoRotateBar'] = 0
 
-            if user['locId'] in [0, 13, 23]:
+            if user['locId'] in [0, 13, 14, 23]:
                 postDict['mustCallNeeded'] = request.form['mustCallNeeded']
             else:
                 if request.form.get('mustCallNeeded'):
