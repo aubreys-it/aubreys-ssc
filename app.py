@@ -189,7 +189,10 @@ def contact():
         dateString = f"{year}{month}{day}"
         dateValue = f"{year}-{month}-{day}"
 
-        postDict['html'] = render_template('home/schedule.html', user=user, schedule=getCalendar(user['locId'], dateString), footer=getFooter(user['locId']), dateValue=dateValue)
+        if request.form.get("sendSchedule"):
+            postDict['html'] = render_template('home/schedule.html', user=user, schedule=getCalendar(user['locId'], dateString), footer=getFooter(user['locId']), dateValue=dateValue)
+        else:
+            postDict['html'] = ''
 
         response = sendMessage(postDict)
     

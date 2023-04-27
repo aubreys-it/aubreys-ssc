@@ -27,7 +27,8 @@
                                             <h5>Contact Employees</h5>
                                         </div>
                                         <div class="card-body" {% if rq_method == "POST" %}hidden{% endif %}>
-                                            <p>Use the form below to send an emailed copy to all employees of any upcoming shifts.</p>
+                                            <p>Use the form below to send an emailed copy to all employees of any upcoming shifts.<br/>
+                                            You can also send a group mesage without the schedule by unchecking the Send Schedule box at the bottom of the form.</p>
                                             <p><i><small>only employees with valid emails will receive a message</small></i></p>
                                         </div>
                                         <div class="card-body" {% if rq_method == "GET" %}hidden{% endif %}>
@@ -54,12 +55,16 @@
                                                         value="{{ schedDate }}"/>
                                                 </div>
                                                 <div class="form-group col-10">
-                                                    <label for="additionalMessage">Additional Message</label>
+                                                    <label for="additionalMessage">Message</label>
                                                     <textarea class="form-control" rows="6" name="additionalMessage" id="additionalMessage"></textarea>
                                                 </div>
                                                 <div class="form-group col-10">
+                                                    <input type="checkbox" id="sendSchedule" name="sendSchedule" value="sendSchedule" checked />
+                                                    <label for="sendSchedule">Send Schedule</label>
+                                                </div>
+                                                <div class="form-group col-10">
                                                     <button id="sendSchedule" class="btn btn-primary float-left" name="command" value="submit">
-                                                        Send Schedule
+                                                        Submit
                                                     </button>
                                                 </div>
                                             </form>
