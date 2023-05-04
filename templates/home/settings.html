@@ -44,7 +44,7 @@
                                                     <div hidden>
                                                         <input type="text" id="shiftId-{{ settings[setting].shiftId }}" value="{{ settings[setting].shiftId }}" name="shiftId"/>
                                                     </div>
-                                                    {% if user['locId'] in [0, 13, 14, 23] %}
+                                                    <!--{% if user['locId'] in [0, 13, 14, 23] %}-->
                                                         <div class="form-inline">
                                                             <label for="mustCalls-{{ settings[setting].shiftId }}">Must Calls Needed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
                                                             <input type="radio" id="mc0" name="mustCallNeeded" value="0" {% if settings[setting].mustCallNeeded == 0 %}checked="checked"{% endif %}>
@@ -56,12 +56,14 @@
                                                             <input type="radio" id="mc3" name="mustCallNeeded" value="3" {% if settings[setting].mustCallNeeded == 3 %}checked="checked"{% endif %}>
                                                             <label for="mc3">&nbsp;3&nbsp;&nbsp;&nbsp;</label>
                                                         </div>
+                                                    <!--
                                                     {% else %}
                                                         <div>
                                                             <input type="checkbox" id="mustCallNeeded-{{ settings[setting].shiftId }}" name="mustCallNeeded"
                                                                 {% if settings[setting].mustCallNeeded %}checked{% endif %}/>&nbsp;&nbsp;Must Call Needed
                                                         </div>
                                                     {% endif %}
+                                                    -->
                                                     <br/>
                                                     <div>
                                                         <div class="form-group">
