@@ -16,4 +16,3 @@ UPD_SET_CODE = os.environ['UPD_SET_CODE']
 GET_CAL_CODE = os.environ['GET_CAL_CODE']
 
 GET_STAFFING = os.environ['GET_STAFFING']
-

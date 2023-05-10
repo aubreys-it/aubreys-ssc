@@ -29,7 +29,7 @@ class abcExpiry:
 
 def loadUserFromDMCP():
     userId = request.headers.get('X-Ms-Client-Principal-Name')
-    
+
     conn = pyodbc.connect(config.DMCP_CONNECT_STRING)
     dmcp = conn.cursor()
 
