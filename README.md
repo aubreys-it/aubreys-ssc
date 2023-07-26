@@ -1,4 +1,4 @@
-Aubrey's Online Server Schedule
+<h1>Aubrey's Online Server Schedule</h1>
 
 This is an online version of the Aubrey's Server Schedule program.<br/>
 Features include:
