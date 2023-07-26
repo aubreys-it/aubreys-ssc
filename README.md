@@ -1,11 +1,12 @@
 Aubrey's Online Server Schedule
 
-This is an online version of the Aubrey's Server Schedule program.
+This is an online version of the Aubrey's Server Schedule program.<br/>
 Features include:
-Rotating Schedule for employees
-Printable Schedule
-Printable Phone List
-Reminders for upcoming ABC expirations
-Emailing of the schedule to employees
-
+<ul>
+<li>Rotating Schedule for employees</li>
+<li>Printable Schedule</li>
+<li>Printable Phone List</li>
+<li>Reminders for upcoming ABC expirations</li>
+<li>Emailing of the schedule to employees</li>
+</ul>
 The app connects to the Aubrey's DMCP database and uses Azure AAD for security as well as determining the user's restaurant so that only the applicable data is shown on the site.
