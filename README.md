@@ -9,5 +9,4 @@ Features include:
 <li>Reminders for upcoming ABC expirations</li>
 <li>Emailing of the schedule to employees</li>
 </ul>
-<br/>
-The app connects to the Aubrey's DMCP database and uses Azure AAD for security as well as determining the user's restaurant so that only the applicable data is shown on the site.
+<p>The app connects to the Aubrey's DMCP database and uses Azure AAD for security as well as determining the user's restaurant so that only the applicable data is shown on the site.</p>
