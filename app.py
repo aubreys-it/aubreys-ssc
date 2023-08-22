@@ -363,7 +363,7 @@ def v2schedule():
     dateString = f"{year}{month}{day}"
     dateValue = f"{year}-{month}-{day}"
 
-    return render_template('home/v2/schedule.html', user=user, schedule=getCalendar(user['locId'], dateString), footer=getFooter(user['locId']), dateValue=dateValue)
+    return render_template('home/v2/schedule.html', user=user, schedule=getCalendar_v2(user['locId'], dateString), footer=getFooter(user['locId']), dateValue=dateValue)
 
 @app.route('/v2/contact.html', methods=["GET", "POST"])
 def v2contact():
@@ -428,17 +428,6 @@ def v2phonelist():
             employees[employee]['bgcolor'] = '#f0f0f0'
 
     return render_template('home/v2/phonelist.html', user=user, employees=employees)
-
-@app.route('/v2/defaultLineup.html', methods=["GET", "POST"])
-def v2defaultSchedule():
-
-    try:
-        if not user:
-            user = loadUserFromDMCP()
-    except NameError:
-        user = loadUserFromDMCP()
-
-    return render_template('home/v2/defaultLineup.html', user=user, settings=getSettings(user['locId']), lineup=getEmployees(user['locId']))
 
 '''
 **************************************************************************************************************************************************************************************
