@@ -2072,6 +2072,10 @@ p.text-muted {
   background: #172f42;
   color: #a9b7d0;
 }
+
+.beta {
+  background: #006633;
+}
 .pcoded-navbar ul {
   padding-left: 0;
   list-style: none;
