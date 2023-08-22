@@ -16,49 +16,49 @@
                 </li>
                 <li data-username="dashboard" 
                     class="nav-item {% if 'index' in segment %} active {% endif %}">
-                    <a href="/" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span
+                    <a href="/v2" class="nav-link "><span class="pcoded-micon"><i class="feather icon-home"></i></span><span
                             class="pcoded-mtext">Dashboard</span></a>
                 </li>
                 <li data-username="schedule" 
                     class="nav-item {% if 'profile' in segment %} active {% endif %}">
-                    <a href="/schedule.html" class="nav-link">
+                    <a href="/v2/schedule.html" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-calendar"></i></span>
                             <span class="pcoded-mtext">Server Schedule</span></a>
                 </li>  
                 <li data-username="servers employees"
                     class="nav-item {% if 'employees' in segment %} active {% endif %}">
-                    <a href="/employees.html" class="nav-link">
+                    <a href="/v2/employees.html" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-users"></i></span>
                             <span class="pcoded-mtext">Employee Info</span>
                     </a>      
                 </li>               
                 <li data-username="settings"
                     class="nav-item {% if 'schedule' in segment %} active {% endif %}">
-                    <a href="/settings.html" class="nav-link">
+                    <a href="/v2/settings.html" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-layers"></i></span>
                             <span class="pcoded-mtext">Schedule Settings</span>
                     </a>      
                 </li>  
                 <li data-username="contact"
                     class="nav-item {% if 'contact' in segment %} active {% endif %}">
-                    <a href="/contact.html" class="nav-link">
+                    <a href="/v2/contact.html" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-mail"></i></span>
                             <span class="pcoded-mtext">Contact Employees</span>
                     </a>      
                 </li> 
                 <li data-username="phone list"
                     class="nav-item {% if 'contact' in segment %} active {% endif %}">
-                    <a href="/phonelist.html" class="nav-link">
+                    <a href="/v2/phonelist.html" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-phone"></i></span>
                             <span class="pcoded-mtext">Phone List</span>
                     </a>      
                 </li> 
-                {% if user['locId'] in [0, 2, 13] %}
-                <li data-username="Switch to v2 (Beta)"
+                {% if user['locId'] in [0] %}
+                <li data-username="Switch to Original Version"
                     class="nav-item {% if 'contact' in segment %} active {% endif %}">
-                    <a href="/v2" class="nav-link">
+                    <a href="/" class="nav-link">
                         <span class="pcoded-micon"><i class="feather icon-shuffle"></i></span>
-                            <span class="pcoded-mtext">Switch to v2 (Beta)</span>
+                            <span class="pcoded-mtext">Switch to Original Version</span>
                     </a>      
                 </li> 
                 {% endif %}

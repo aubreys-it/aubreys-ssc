@@ -1,0 +1,207 @@
+{% extends "layouts/v2_base.html" %}
+
+{% block title %} Phone List {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+    <style type="text/css">
+        .printArea {
+            width: 8.5in;
+        }
+
+        .primaryTable {
+            page-break-after: always;
+            page-break-inside: avoid;
+            margin-bottom: 20px;
+        }
+
+        .primaryTable th {
+            text-align: left;
+        }
+
+        .header {
+            text-align: center;
+            width: 100%;
+            border-bottom: 1px solid black;
+            text-transform: uppercase;
+            padding-bottom: 5px;
+            font-weight: bold;
+            font-size: 30px;
+        }
+
+        .printOnly {
+            display: none;
+        }
+
+        table {
+            font-size: 20px;
+            text-align: center;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        body {
+            margin-top: 0px;
+            margin-bottom: 0px;
+        }
+
+        @media only print {
+            body { visibility: hidden; }
+            .listHeader {
+                position: absolute;
+                top: -500px;
+            }
+            .primaryTable { 
+                position: relative;
+                visibility: visible; 
+                width: 140%;
+                left: -264px;
+            }
+            .printOnly {
+                display: block;
+            }
+        }
+    </style>
+{% endblock stylesheets %}
+
+{% block content %}
+<div class="pcoded-main-container printArea">
+    <div class="pcoded-wrapper">
+        <div class="pcoded-content">
+            <div class="pcoded-inner-content">
+                <!-- [ breadcrumb ] start -->
+                <div class="page-header" id="pageHeader">
+                    <div class="page-block">
+                        <div class="row align-items-center">
+                            <div class="col-md-12">
+                                <div class="page-header-title">
+                                    <div>&nbsp;</div>
+                                    <div class="listHeader">
+                                        <table>
+                                            <tr>
+                                                <td align="left">
+                                                    <div>
+                                                        <h4 class="m-b-10">Employee Phone List</h4>
+                                                    </div>
+                                                </td>
+                                                <td align="right">
+                                                    <div class="input-group col-8">
+                                                        <button class="btn btn-warning" name="command" value="printList" onClick="printMe()">Print Phone List</button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <hr/>
+                                </div>
+                                <div>
+                                    <table class="primaryTable" id="phoneList">
+                                        <thead>
+                                            <tr class="printOnly">
+                                                <td colspan="2" class="header">FOH Employee Phone List</td>
+                                            </tr>
+                                            <tr class="printOnly">
+                                                <td colspan="2">&nbsp;</td>
+                                            </tr>
+                                            <tr>
+                                                <th onclick="sortTable(0)">First Name</th>
+                                                <th onclick="sortTable(1)">Last Name</th>
+                                                <th onclick="sortTable(2)">Phone Number</th>
+                                                <th onclick="sortTable(3)">ABC Expiration</th>
+                                                <th onclick="sortTable(4)">Book Location</th>
+                                            </tr>
+                                        </thead>
+                                        {% for employee in employees %}
+                                            <tr bgcolor="{{employees[employee].bgcolor}}" style="border: 1px solid #444">
+                                                <td align="left" style="border-right: 1px solid #444">{{ employees[employee].firstName }}</td>
+                                                <td align="left" style="border-right: 1px solid #444">{{ employees[employee].lastName }}</td>
+                                                <td align="left" style="border-right: 1px solid #444">{{ employees[employee].phone }}</td>
+                                                <td align="left" style="border-right: 1px solid #444">{{ employees[employee].abcExpire }}</td>
+                                                <td align="left" style="border-right: 1px solid #444">{{ employees[employee].abcBookLocation }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- [ breadcrumb ] end -->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script type="text/javascript">
+    function printMe() {
+        window.print();
+    }
+
+    function sortTable(n) {
+        var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+        table = document.getElementById("phoneList");
+        switching = true;
+        // Set the sorting direction to ascending:
+        dir = "asc";
+        /* Make a loop that will continue until
+        no switching has been done: */
+        while (switching) {
+            // Start by saying: no switching is done:
+            switching = false;
+            rows = table.rows;
+            /* Loop through all table rows (except the
+            first, which contains table headers): */
+            for (i = 3; i < (rows.length - 1); i++) {
+            // Start by saying there should be no switching:
+            shouldSwitch = false;
+            /* Get the two elements you want to compare,
+            one from current row and one from the next: */
+            x = rows[i].getElementsByTagName("TD")[n];
+            y = rows[i + 1].getElementsByTagName("TD")[n];
+            /* Check if the two rows should switch place,
+            based on the direction, asc or desc: */
+            if (dir == "asc") {
+                if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+                // If so, mark as a switch and break the loop:
+                shouldSwitch = true;
+                break;
+                }
+            } else if (dir == "desc") {
+                if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+                // If so, mark as a switch and break the loop:
+                shouldSwitch = true;
+                break;
+                }
+            }
+            }
+            if (shouldSwitch) {
+            /* If a switch has been marked, make the switch
+            and mark that a switch has been done: */
+            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+            switching = true;
+            // Each time a switch is done, increase this count by 1:
+            switchcount ++;
+            } else {
+            /* If no switching has been done AND the direction is "asc",
+            set the direction to "desc" and run the while loop again. */
+            if (switchcount == 0 && dir == "asc") {
+                dir = "desc";
+                switching = true;
+            }
+            }
+        }
+        for (i = 3; i < (rows.length); i++) {
+            if (i % 2 == 0) {
+                rows[i].style.backgroundColor = "#f0f0f0";
+            } else {
+                rows[i].style.backgroundColor = "#fff";
+            }
+        }
+    }
+</script>
+{% endblock javascripts %}

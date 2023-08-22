@@ -1,0 +1,375 @@
+{% extends "layouts/v2_base.html" %}
+
+{% block title %} Schedule Settings {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<link href="/static/assets/plugins/bootstrap/css/bootstrap.css" rel="stylesheet"/>
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+                    <div class="page-header" id="pageHeader">
+                        <div class="page-block">
+                            <div class="row align-items-center">
+                                <div class="col-md-12">
+                                    <div class="page-header-title">
+                                        <div>&nbsp;</div>
+                                        <div>
+                                            <h4 class="m-b-10">Schedule Settings</h4>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="page-header-title">
+                                        <select name="shiftNames" id="shiftNames" class="custom-select">
+                                            <option value="1">Monday AM</option>
+                                            <option value="2">Monday PM</option>
+                                            <option value="3">Tuesday AM</option>
+                                            <option value="4">Tuesday PM</option>
+                                            <option value="5">Wednesday AM</option>
+                                            <option value="6">Wednesday PM</option>
+                                            <option value="7">Thursday AM</option>
+                                            <option value="8">Thursday PM</option>
+                                            <option value="9">Friday AM</option>
+                                            <option value="10">Friday PM</option>
+                                            <option value="11">Saturday AM</option>
+                                            <option value="12">Saturday PM</option>
+                                            <option value="13">Sunday AM</option>
+                                            <option value="14">Sunday PM</option>
+                                        </select>
+                                    </div>
+                                    <br/>&nbsp;
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="card-column">
+                                {% for setting in settings %}
+                                        <div class="card" id="{{ settings[setting].shiftName|replace(' ', '-') }}">
+                                            <div class="card-body">
+                                                <h4 class="card-title">{{ settings[setting].shiftName }}</h4>
+                                                <hr/>
+                                                <form id="frm-{{ settings[setting].shiftId }}" action="" method="post">
+                                                    <div hidden>
+                                                        <input type="text" id="shiftId-{{ settings[setting].shiftId }}" value="{{ settings[setting].shiftId }}" name="shiftId"/>
+                                                    </div>
+                                                    <div>
+                                                        <table id="serverLineup-{{ settings[setting].shiftId }}">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Server Lineup</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for i in range(0, settings[setting]['buildToShiftCount']) %}
+                                                                    <tr draggable="true" ondragstart="start()"  ondragover="dragover()" ondragend="dragend({{ settings[setting].shiftId }})" cols>
+                                                                        <td draggable="false">
+                                                                            <span draggable="false" width="100%">
+                                                                            <img src="/static/assets/images/grip-dots-vertical.svg" width="20" height="20" alt="grip-dots-vertical" draggable="false"/>
+                                                                            {% set s = namespace(serverName='*****') %}
+                                                                            {% for j in range(0, settings[setting]['availableServers']|length) %}
+                                                                                {% if settings[setting]['availableServers'][j]['shiftNumber'] == i + 1 %}
+                                                                                    {% set s.serverName = settings[setting]['availableServers'][j]['displayName'] %}
+                                                                                {% endif %}
+                                                                            {% endfor %}
+                                                                            {{ s.serverName }}
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                {% endfor %}
+                                                                </tbody>
+                                                        </table>
+                                                        <table id="formLineup-{{ settings[setting].shiftId }}" style="display: none;">
+                                                            {% for i in range(0, settings[setting]['availableServers']|length) %}
+                                                                <tr>
+                                                                    <td><input type="text" value="{{ settings[setting]['availableServers'][i]['displayName'] }}" id="serverName-{{ i }}" /></td>
+                                                                    <td><input type="text" value="{{ settings[setting]['availableServers'][i]['empId'] }}" id="empId-{{ i }}" /></td>
+                                                                    <td><input type="text" value="{{ settings[setting]['availableServers'][i]['shiftNumber'] }}" id="shiftNumber-{{ i }}" /></td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </table>
+                                                        <input type="text" id="serverLineupJson-{{ settings[setting].shiftId }}" name="serverLineupJson" style="display: none;" />
+                                                    </div>
+                                                    <br/>
+                                                    <div class="form-inline">
+                                                        <label for="mustCalls-{{ settings[setting].shiftId }}">Must Calls Needed&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                                        <input type="radio" id="mc0" name="mustCallNeeded" value="0" {% if settings[setting].mustCallNeeded == 0 %}checked="checked"{% endif %}>
+                                                        <label for="mc0">&nbsp;0&nbsp;&nbsp;&nbsp;</label>
+                                                        <input type="radio" id="mc1" name="mustCallNeeded" value="1" {% if settings[setting].mustCallNeeded == 1 %}checked="checked"{% endif %}>
+                                                        <label for="mc1">&nbsp;1&nbsp;&nbsp;&nbsp;</label>
+                                                        <input type="radio" id="mc2" name="mustCallNeeded" value="2" {% if settings[setting].mustCallNeeded == 2 %}checked="checked"{% endif %}>
+                                                        <label for="mc2">&nbsp;2&nbsp;&nbsp;&nbsp;</label>
+                                                        <input type="radio" id="mc3" name="mustCallNeeded" value="3" {% if settings[setting].mustCallNeeded == 3 %}checked="checked"{% endif %}>
+                                                        <label for="mc3">&nbsp;3&nbsp;&nbsp;&nbsp;</label>
+                                                    </div>
+                                                    <br/>
+                                                    <div>
+                                                        <div class="form-group">
+                                                            <label for="openShifts-{{ settings[setting].shiftId }}">
+                                                                {% if settings[setting].dayPart == 1 %}AM
+                                                                {% elif settings[setting].dayPart == 2 %}PM
+                                                                {% endif %}Build to  Shift Count</label>
+                                                            <input type="number" id="buildToShiftCount-{{ settings[setting].shiftId }}" name="buildToShiftCount" min="0" max="20"
+                                                                value="{{ settings[setting].buildToShiftCount }}" class="form-control col-6"/>
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <div>
+                                                            <label>
+                                                                {% if settings[setting].dayPart == 1 %}AM
+                                                                {% elif settings[setting].dayPart == 2 %}PM
+                                                                {% endif %}ToGo
+                                                            </label>
+                                                        </div>
+                                                        <div>
+                                                            <input type="text" id="togoInTime-{{ settings[setting].shiftId }}" name="togoInTime"
+                                                                value="{{ settings[setting].togoInTime }}" class="form-control col-3" style="display:inline-block;"/>
+                                                            <input type="text" id="togo-{{ settings[setting].shiftId }}" name="togo"
+                                                                value="{{ settings[setting].togo }}" class="form-control col-8 form-inline" style="display:inline-block;"/>
+                                                            <label class="col-3">&nbsp;</label>
+                                                            <label class="col-8"><i><small>separate multiple employees with a semi-colon</small></i></label>
+                                                        </div>
+                                                    </div>
+                                                    {% if settings[setting].showHosts == 1 %}
+                                                        <div>
+                                                            <label>
+                                                                {% if settings[setting].dayPart == 1 %}AM
+                                                                {% elif settings[setting].dayPart == 2 %}PM
+                                                                {% endif %}Hosts
+                                                            </label>
+                                                            <input type="text" id="hosts-{{ settings[setting].shiftId }}" name="hosts"
+                                                                value="{{ settings[setting].hosts }}" class="form-control col-11"/>
+                                                            <label><i><small>separate multiple employees with a semi-colon</small></i></label>
+                                                        </div>
+                                                    {% endif %}
+                                                    <div>
+                                                        <label>
+                                                            {% if settings[setting].dayPart == 1 %}AM
+                                                            {% elif settings[setting].dayPart == 2 %}PM
+                                                            {% endif %}Bartenders
+                                                        </label>
+                                                        <input type="text" id="bartenders-{{ settings[setting].shiftId }}" name="bartenders"
+                                                            value="{{ settings[setting].bartenders }}" class="form-control col-11"/>
+                                                        <label><i><small>separate multiple employees with a semi-colon</small></i></label>
+                                                    </div>
+                                                    <div>
+                                                        <input type="checkbox" id="autoRotateBar-{{ settings[setting].shiftId }}" name="autoRotateBar"
+                                                            {% if settings[setting].autoRotateBar %}checked{% endif %}/>&nbsp;&nbsp;Auto Rotate Bartenders
+                                                    </div>
+                                                    <br/>
+                                                    <div>
+                                                        <label for="inTimes-{{ settings[setting].shiftId }}">In Times</label>
+                                                    </div>
+                                                    <div>
+                                                        <textarea class="form-control" rows="6" name="inTimes">{{ '\r\n'.join(settings[setting].inTimes) }}</textarea>
+                                                    </div>
+                                                    <br/>
+                                                    <div>
+                                                        <button id="post1-{{ settings[setting].shiftId }}" class="btn btn-secondary float-left" name="command" value="update">
+                                                            Update Settings
+                                                        </button>
+                                                    </div>
+                                                    <div>&nbsp;</div>
+                                                </form>
+                                            </div>
+                                        </div>      
+                                {% endfor %}
+                            </div>
+                            <div class="card col-10" id="footerDiv">
+                                <form id="scheduleFooter" action="" method="post">
+                                    <div>&nbsp;</div>
+                                    <div>
+                                        <h4 class="card-title">Schedule Notes</h4>
+                                    </div>
+                                    <div>
+                                        <textarea class="form-control" rows="6" name="footer" id="footer">{{ '\r\n'.join(footer) }}</textarea>
+                                    </div>
+                                    <br/>
+                                    <div>
+                                        <button id="scheduleFooterSubmit" class="btn btn-secondary float-left" name="command" value="updateFooter">
+                                            Update Schedule Notes
+                                        </button>
+                                    </div>
+                                    <div>&nbsp;</div>
+                                </form>
+                                <div>&nbsp;</div>
+                            </div>
+                        <!-- [ Main Content ] end -->
+                        </div>                  
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->
+
+    
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+<script>
+    var monAmSlider = document.getElementById("rotationOffset-1");
+    var monAmOutput = document.getElementById("rotationOffsetValue-1");
+
+    var monPmSlider = document.getElementById("rotationOffset-2");
+    var monPmOutput = document.getElementById("rotationOffsetValue-2");
+
+    var tueAmSlider = document.getElementById("rotationOffset-3");
+    var tueAmOutput = document.getElementById("rotationOffsetValue-3");
+
+    var tuePmSlider = document.getElementById("rotationOffset-4");
+    var tuePmOutput = document.getElementById("rotationOffsetValue-4");
+
+    var wedAmSlider = document.getElementById("rotationOffset-5");
+    var wedAmOutput = document.getElementById("rotationOffsetValue-5");
+
+    var wedPmSlider = document.getElementById("rotationOffset-6");
+    var wedPmOutput = document.getElementById("rotationOffsetValue-6");
+
+    var thuAmSlider = document.getElementById("rotationOffset-7");
+    var thuAmOutput = document.getElementById("rotationOffsetValue-7");
+
+    var thuPmSlider = document.getElementById("rotationOffset-8");
+    var thuPmOutput = document.getElementById("rotationOffsetValue-8");
+
+    var friAmSlider = document.getElementById("rotationOffset-9");
+    var friAmOutput = document.getElementById("rotationOffsetValue-9");
+
+    var friPmSlider = document.getElementById("rotationOffset-10");
+    var friPmOutput = document.getElementById("rotationOffsetValue-10");
+
+    var satAmSlider = document.getElementById("rotationOffset-11");
+    var satAmOutput = document.getElementById("rotationOffsetValue-11");
+
+    var satPmSlider = document.getElementById("rotationOffset-12");
+    var satPmOutput = document.getElementById("rotationOffsetValue-12");
+
+    var sunAmSlider = document.getElementById("rotationOffset-13");
+    var sunAmOutput = document.getElementById("rotationOffsetValue-13");
+
+    var sunPmSlider = document.getElementById("rotationOffset-14");
+    var sunPmOutput = document.getElementById("rotationOffsetValue-14");
+
+    // Update the current slider value (each time you drag the slider handle)
+    monAmSlider.oninput = function() {
+    monAmOutput.innerHTML = '&nbsp;' + this.value;
+    }
+    monPmSlider.oninput = function() {
+    monPmOutput.innerHTML = this.value;
+    }
+    tueAmSlider.oninput = function() {
+    tueAmOutput.innerHTML = this.value;
+    }
+    tuePmSlider.oninput = function() {
+    tuePmOutput.innerHTML = this.value;
+    }
+    wedAmSlider.oninput = function() {
+    wedAmOutput.innerHTML = this.value;
+    }
+    wedPmSlider.oninput = function() {
+    wedPmOutput.innerHTML = this.value;
+    }
+    thuAmSlider.oninput = function() {
+    thuAmOutput.innerHTML = this.value;
+    }
+    thuPmSlider.oninput = function() {
+    thuPmOutput.innerHTML = this.value;
+    }
+    friAmSlider.oninput = function() {
+    friAmOutput.innerHTML = this.value;
+    }
+    friPmSlider.oninput = function() {
+    friPmOutput.innerHTML = this.value;
+    }
+    satAmSlider.oninput = function() {
+    satAmOutput.innerHTML = this.value;
+    }
+    satPmSlider.oninput = function() {
+    satPmOutput.innerHTML = this.value;
+    }
+    sunAmSlider.oninput = function() {
+    sunAmOutput.innerHTML = this.value;
+    }
+    sunPmSlider.oninput = function() {
+    sunPmOutput.innerHTML = this.value;
+    }
+</script>
+<script>
+    var row;
+
+    function start(){  
+        row = event.target; 
+    }
+
+    function dragover(){
+        var e = event;
+        e.preventDefault(); 
+  
+        let children= Array.from(e.target.parentNode.parentNode.children);
+  
+        if(children.indexOf(e.target.parentNode)>children.indexOf(row))
+            e.target.parentNode.after(row);
+        else
+            e.target.parentNode.before(row);
+    }
+
+    function dragend(shiftId){
+
+        var table = document.getElementById('serverLineup-' + String(shiftId));
+        var formTable = document.getElementById('formLineup-' + String(shiftId));
+        var rowCount = table.rows.length;
+        var formTableRowCount = formTable.rows.length;
+
+        for (var i=0; i<rowCount; i++) {
+            for (var j=0; j<formTableRowCount; j++) {
+                if(table.rows[i].cells[0].innerHTML.indexOf(formTable.rows[j].cells[0].children[0].value) > -1){
+                    formTable.rows[j].cells[2].children[0].value = i;
+                }
+            } 
+        }
+
+        var serverJson = "[";
+        for (var i=0; i<formTableRowCount; i++) {
+            serverJson += '{"serverName":"' + formTable.rows[i].cells[0].children[0].value + '",';
+            serverJson += '"empId":"' + formTable.rows[i].cells[1].children[0].value + '",';
+            serverJson += '"shiftNumber":"' + formTable.rows[i].cells[2].children[0].value + '"}';
+            if(i < formTableRowCount - 1){
+                serverJson += ',';
+            }
+        }
+        serverJson += "]";
+        document.getElementById('serverLineupJson-' + String(shiftId)).value = serverJson;
+
+    }
+</script>
+<script>
+    // Filter the cards based on the selected shift from the list box
+
+    $(document).ready(function(){
+        
+        var shiftName = $("#shiftNames option:selected").text().replace(' ', '-');
+        $('.card').hide();
+        $('#' + shiftName).show();
+        $('#footerDiv').show();
+
+        $('#shiftNames').change(function(){
+            var shiftName = $("#shiftNames option:selected").text().replace(' ', '-');
+            $('.card').hide();
+            $('#' + shiftName).show();
+            $('#footerDiv').show();
+        });
+    });
+</script>
+{% endblock javascripts %}

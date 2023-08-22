@@ -1,0 +1,198 @@
+{% extends "layouts/v2_base.html" %}
+
+{% block title %} Dashboard {% endblock %} 
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}
+<style>
+    @media only print {
+        #command {
+            display: none !important;
+        }
+        @page {
+            size: landscape;
+            width: fit-content;
+        }
+        
+    }
+</style>
+{% endblock stylesheets %}
+
+{% block content %}
+
+    <!-- [ Main Content ] start -->
+    <div class="pcoded-main-container">
+        <div class="pcoded-wrapper">
+
+            <div class="pcoded-content">
+                <div class="pcoded-inner-content">
+                    <!-- [ breadcrumb ] start -->
+
+                    <!-- [ breadcrumb ] end -->
+                    <div class="main-body">
+                        <div class="page-wrapper">
+                            <!-- [ Main Content ] start -->
+                            <div class="row">
+                                <!-- Program Updates Start-->
+                                <div class="col-xl-8 col-md-6">
+                                    <div class="card Recent-Users">
+                                        <div class="card-header">
+                                            <h5>Program Updates</h5>
+                                        </div>
+                                        <div class="card-block px-0 py-3">
+                                            <p style="margin-left: 25px;margin-right: 25px">
+                                                <b>Phone List Sorting - 2023.05.10</b><br/>
+                                                The phone list is now sortable by any of the fields. The display name has been broken down to separate columns for first and last name so that you can sort by either field. To change the order of the list, just click on the column header you wish to sort. The first click will arrange them in ascending order and, if you click again, it will resort in descending order.<br/>
+                                            </p>                    
+                                        </div>
+                                        <div class="card-block px-0 py-3">
+                                            <p style="margin-left: 25px;margin-right: 25px">
+                                                <b>Group Messaging - 2023.04.27</b><br/>
+                                                You can now send a group message to all employees without sending the schedule. Just uncheck the Send Schedule box at the bottom of the Contact Employees form.<br/>
+                                            </p>                    
+                                        </div>
+                                        <div class="card-block px-0 py-3">
+                                            <p style="margin-left: 25px;margin-right: 25px">
+                                                <b>Staffing Summary - 2023.04.25</b><br/>
+                                                There is now a printable summary of schedule holes at the bottom of this page.<br/>
+                                                If you scroll past the Upcoming ABC Expirations, you will see each shift and the number of servers working / number of holes left on the schedule.<br/>
+                                                This is a quick way to see if you are over or under staffed for the week.
+                                            </p>                    
+                                        </div>
+                                        <div class="card-block px-0 py-3">
+                                            <p style="margin-left: 25px;margin-right: 25px">
+                                                <b>Print Fix - 2023.04.25</b><br/>
+                                                There was an issue when printing the schedule where portions of the schedule were getting cut off due to the screen resolution.<br/>
+                                                This has been fixed and the schedule should now print properly.</br>
+                                                Please contact <a href="mailto:support@aubreys.group">support@aubreys.group</a> if you are still having issues.   
+                                            </p>                    
+                                        </div>
+                                        <div class="card-block px-0 py-3">
+                                            <p style="margin-left: 25px;margin-right: 25px">
+                                                <b>Manual Rotations - 2023.04.24</b><br/>
+                                                You can now manually rotate your schedule. This was built in as some locations were seeing their employees work the sames shift every day of the week.<br/>
+                                                <i>i.e. server John working the number 1 shift every day this week, the number 2 shift every day the next week, 3 the week after, etc...</i><br/>&nbsp;<br/>
+                                                The manual rotation is in the schedule settings and allows you to set an offset which bumps the rotation for that shift either forwards or backwards by a factor of 1 to 5. A factor of zero means there is no rotation offset.     
+                                            </p>                    
+                                        </div>
+                                        <!-- Archived Updates
+                                        <div class="card-block px-0 py-3">
+                                            <p style="margin-left: 25px">
+                                                <b>Program Updates - 2023.03.21</b><br/>
+                                                <ul>
+                                                    <li>The MC designation for must calls on the schedule no longer takes up a number.</li>
+                                                    <li>There is now a printable phone list you can find on the left hand menu.</li>
+                                                    <li>Line breaks in both the schedule footer and in-times should now show up properly on the printed schedule.</li>
+                                                </ul>
+                                            </p>                    
+                                        </div>
+                                        <div class="card-block px-0 py-3">
+                                            <p style="margin-left: 25px">
+                                                <b>Rotation Changes - 2023.03.02</b><br/>
+                                                There was an issue with togo / bar / host shift rotations where the order of the shifts were based on the alphabetical order of the employees. This has now been fixed so that the order is based on the order you have it typed in on your settings page. You might notice a change in your shift rotation for these employee types due to the changes.
+                                            </p>                    
+                                        </div>
+                                        <div class="card-block px-0 py-3">
+                                            <p style="margin-left: 25px">
+                                                <b>Host Scheduling Funcionality</b><br/>
+                                                You can now add your hosts to the schedule. If you are interested in adding this functionality, contact <a href="mailto:support@aubreys.group">support@aubreys.group</a>
+                                            </p>
+                                        </div>
+                                    -->
+                                    </div>
+                                </div>
+                                <!--[ ABC Expirations ] start-->
+                                <div class="col-xl-8 col-md-6">
+                                    <div class="card Recent-Users">
+                                        <div class="card-header">
+                                            <h5>Upcoming ABC Expirations</h5>
+                                        </div>
+                                        <div class="card-block px-0 py-3">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <tbody>
+                                                    {% for empId in expiry %}
+                                                    <tr class="unread">
+                                                        <td>
+                                                            <img class="rounded-circle" style="width:40px;"
+                                                                src="/static/assets/images/user/user-logo-1.png" alt="activity-user">
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="mb-1">{{ expiry[empId].displayName }}</h6>
+                                                            <p class="m=0">{{ expiry[empId].phone }}</p>
+                                                        </td>
+                                                        <td>
+                                                            <h6 class="text-muted">
+                                                                <i class="fas fa-circle text-c-red f-10 m-r-15"></i>
+                                                                {{ expiry[empId].abcExpire }}
+                                                            </h6>
+                                                        </td>
+                                                        <td><a href="employees.html#a-{{ empId }}"
+                                                            class="label theme-bg2 text-white f-12">&nbsp;&nbsp;&nbsp;Edit&nbsp;&nbsp;&nbsp;</a>
+                                                    </td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--[ ABC Expirations ] end-->
+                                <!-- Schedule Summary Start -->
+                                <div class="col-xl-8 col-md-6">
+                                    <div class="card Recent-Users" id="staffingLevels" >
+                                        <div class="card-header">
+                                            <h5>Staffing Summary</h5>
+                                        </div>
+                                        <div class="card-block px-0 py-3">
+                                            <div class="table-responsive" style="margin-left: 25px">
+                                                <table class="table table-bordered" style="table-layout: fixed;width: 95%">
+                                                    <thead>
+                                                        <tr>
+                                                            {% for shiftId in staffing %}
+                                                                <th><b>{{ staffing[shiftId].shift }}</b></th>
+                                                            {% endfor %}
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                        {% for shiftId in staffing %}
+                                                            <td>{{ staffing[shiftId].filledShifts }}&nbsp;/&nbsp;{{ staffing[shiftId].holes }}</td>
+                                                        {% endfor %}
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <button class="btn btn-warning" id="command" name="command" value="printSchedule" onClick="printDiv('staffingLevels')">Print Summary</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- Schedule Summary End -->
+                            <!-- [ Main Content ] end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- [ Main Content ] end -->            
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<script type="text/javascript">
+    function printDiv(divName) {
+        var printContents = document.getElementById(divName).innerHTML;
+        var originalContents = document.body.innerHTML;
+        document.body.innerHTML = printContents;
+        window.print();
+        document.body.innerHTML = originalContents;
+    }
+</script>
+
+{% endblock javascripts %}
