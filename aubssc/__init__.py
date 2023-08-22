@@ -113,6 +113,21 @@ def getCalendar(locId, dateString):
                         
     return calendar
 
+def getCalendar_v2(locId, dateString):
+    uri = f"{config.API_BASE_URI}get-calendar-v2?code={config.GET_CAL_CODE}&locId={locId}&weekStart={dateString}"
+    response = requests.request('GET', uri)
+    calendar = json.loads(response.text)
+    for day in calendar:
+        for shift in calendar[day]:
+            if shift in ['1', '2']:
+                for server in calendar[day][shift]['servers']:
+                    if server['inTimes']:
+                        server['inTimes'] = server['inTimes'].split('\r\n')
+                    else:
+                        server['inTimes'] = [' ']
+                        
+    return calendar
+
 def getFooter(locId):
     conn = pyodbc.connect(config.DMCP_CONNECT_STRING)
     dmcp = conn.cursor()
