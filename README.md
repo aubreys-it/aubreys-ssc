@@ -1,7 +1,12 @@
-# Deploy a Python (Flask) web app to Azure App Service - Sample Application
+<h1>Aubrey's Online Server Schedule</h1>
 
-This is the sample Flask application for the Azure Quickstart [Deploy a Python (Django or Flask) web app to Azure App Service](https://docs.microsoft.com/en-us/azure/app-service/quickstart-python).  For instructions on how to create the Azure resources and deploy the application to Azure, refer to the Quickstart article.
-
-A Django sample application is also available for the article at [https://github.com/Azure-Samples/msdocs-python-django-webapp-quickstart](https://github.com/Azure-Samples/msdocs-python-django-webapp-quickstart).
-
-If you need an Azure account, you can [create on for free](https://azure.microsoft.com/en-us/free/).
+This is an online version of the Aubrey's Server Schedule program.<br/>
+Features include:
+<ul>
+<li>Rotating Schedule for employees</li>
+<li>Printable Schedule</li>
+<li>Printable Phone List</li>
+<li>Reminders for upcoming ABC expirations</li>
+<li>Emailing of the schedule to employees</li>
+</ul>
+<p>The app connects to the Aubrey's DMCP database and uses Azure AAD for security as well as determining the user's restaurant so that only the applicable data is shown on the site.</p>
