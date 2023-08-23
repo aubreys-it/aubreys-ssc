@@ -114,7 +114,7 @@ def getCalendar(locId, dateString):
     return calendar
 
 def getCalendar_v2(locId, dateString):
-    uri = f"{config.API_BASE_URI}get-calendar-v2?code={config.GET_CAL_CODE}&locId={locId}&weekStart={dateString}"
+    uri = f"{config.API_BASE_URI}get-calendar-v2?code={config.GET_CAL_CODE_V2}&locId={locId}&weekStart={dateString}"
     response = requests.request('GET', uri)
     calendar = json.loads(response.text)
     for day in calendar:
