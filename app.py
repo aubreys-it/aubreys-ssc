@@ -2,7 +2,7 @@ from datetime import datetime
 import os
 from flask import Flask, render_template, redirect, url_for, send_from_directory, request, send_file
 from aubssc import loadUserFromDMCP, getAbcExpiry
-from aubssc import getEmployees, updateEmployee, deleteEmployee, addEmployee, getSettings, updateSettings, getCalendar, getFooter, updateFooter, sendMessage, getStaffingSummary
+from aubssc import getEmployees, updateEmployee, deleteEmployee, addEmployee, getSettings, updateSettings, getCalendar, getFooter, updateFooter, sendMessage, getStaffingSummary, getCalendar_v2
 import datetime
 
 app = Flask(__name__)
