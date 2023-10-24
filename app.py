@@ -403,7 +403,7 @@ def v2contact():
         dateValue = f"{year}-{month}-{day}"
 
         if request.form.get("sendSchedule"):
-            postDict['html'] = render_template('home/v2/schedule.html', user=user, schedule=getCalendar(user['locId'], dateString), footer=getFooter(user['locId']), dateValue=dateValue)
+            postDict['html'] = render_template('home/v2/schedule.html', user=user, schedule=getCalendar_v2(user['locId'], dateString), footer=getFooter(user['locId']), dateValue=dateValue)
         else:
             postDict['html'] = ''
 
