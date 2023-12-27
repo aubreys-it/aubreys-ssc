@@ -30,7 +30,7 @@ def index():
     except NameError:
         staffing = getStaffingSummary(user['locId'])
 
-    if user['locId'] in [0, 2, 3, 17, 18]:
+    if user['locId'] in [0, 2, 13, 17, 18]:
         return render_template('home/v2/index.html', user=user, expiry=expiry, staffing=staffing)
     else:
         return render_template('home/index.html', user=user, expiry=expiry, staffing=staffing)
