@@ -83,8 +83,10 @@ def employees():
         elif request.form.get("submitType") == "delete":
             empId = request.form.get('empId')
             result = deleteEmployee(empId)
-     
-    return render_template('home/employees.html', user=user, employees=getEmployees(user['locId']))
+    if user['locId'] in [0, 2, 13, 17, 18]:
+        return render_template('home/v2/employees.html', user=user, employees=getEmployees(user['locId']))
+    else:
+        return render_template('home/employees.html', user=user, employees=getEmployees(user['locId']))
     
 @app.route('/settings.html', methods=["GET", "POST"])
 def settings():
@@ -129,7 +131,10 @@ def settings():
         elif request.form.get("command") == "updateFooter":
             result = updateFooter(user['locId'], request.form.get("footer"))
 
-    return render_template('home/settings.html', user=user, settings=getSettings(user['locId']), footer=getFooter(user['locId']))
+    if user['locId'] in [0, 2, 13, 17, 18]:
+        return render_template('home/v2/settings.html', user=user, settings=getSettings(user['locId']), footer=getFooter(user['locId']))
+    else:
+        return render_template('home/settings.html', user=user, settings=getSettings(user['locId']), footer=getFooter(user['locId']))
 
 @app.route('/schedule.html', methods=["GET", "POST"])
 def schedule():
@@ -153,7 +158,10 @@ def schedule():
     dateString = f"{year}{month}{day}"
     dateValue = f"{year}-{month}-{day}"
 
-    return render_template('home/schedule.html', user=user, schedule=getCalendar(user['locId'], dateString), footer=getFooter(user['locId']), dateValue=dateValue)
+    if user['locId'] in [0, 2, 13, 17, 18]:
+        return render_template('home/v2/schedule.html', user=user, schedule=getCalendar(user['locId'], dateString), footer=getFooter(user['locId']), dateValue=dateValue)
+    else:
+        return render_template('home/schedule.html', user=user, schedule=getCalendar(user['locId'], dateString), footer=getFooter(user['locId']), dateValue=dateValue)
 
 @app.route('/contact.html', methods=["GET", "POST"])
 def contact():
@@ -199,7 +207,10 @@ def contact():
 
         response = sendMessage(postDict)
     
-    return render_template('home/contact.html', user=user, rq_method=request.method, schedDate=dateValue)
+    if user['locId'] in [0, 2, 13, 17, 18]:
+        return render_template('home/v2/contact.html', user=user, rq_method=request.method, schedDate=dateValue)
+    else:
+        return render_template('home/contact.html', user=user, rq_method=request.method, schedDate=dateValue)
 
 @app.route('/phonelist.html', methods=["GET", "POST"])
 def phonelist():
@@ -217,7 +228,10 @@ def phonelist():
         else:
             employees[employee]['bgcolor'] = '#f0f0f0'
 
-    return render_template('home/phonelist.html', user=user, employees=employees)
+    if user['locId'] in [0, 2, 13, 17, 18]:
+        return render_template('home/v2/phonelist.html', user=user, employees=employees)
+    else:
+        return render_template('home/phonelist.html', user=user, employees=employees)
 
 @app.route('/defaultLineup.html', methods=["GET", "POST"])
 def defaultSchedule():
