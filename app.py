@@ -30,7 +30,10 @@ def index():
     except NameError:
         staffing = getStaffingSummary(user['locId'])
 
-    return render_template('home/index.html', user=user, expiry=expiry, staffing=staffing)
+    if user['locId'] in [0]:
+        return render_template('home/v2/index.html', user=user, expiry=expiry, staffing=staffing)
+    else:
+        return render_template('home/index.html', user=user, expiry=expiry, staffing=staffing)
 
 @app.route('/favicon.ico')
 def favicon():
