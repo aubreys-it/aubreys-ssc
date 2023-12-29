@@ -168,7 +168,11 @@
                                                     </div>
                                                     <br/>
                                                     <div>
-                                                        <label for="inTimes-{{ settings[setting].shiftId }}">In Times</label>
+                                                        {% if user['locId'] in [12] %}
+                                                            <label for="inTimes-{{ settings[setting].shiftId }}">Shift Notes</label>
+                                                        {% else %}
+                                                            <label for="inTimes-{{ settings[setting].shiftId }}">In Times</label>
+                                                        {% endif %}
                                                     </div>
                                                     <div>
                                                         <textarea class="form-control" rows="6" name="inTimes">{{ '\r\n'.join(settings[setting].inTimes) }}</textarea>
