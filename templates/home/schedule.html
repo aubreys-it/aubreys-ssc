@@ -292,8 +292,12 @@
                                                                 <td class="tbl-3 tbl">
                                                                     <div class="TgBar Box">
                                                                         <div class="Boxhead">
-                                                                            <b>{% if dayPart=='1' %}AM{% else %}PM{% endif %} IN TIMES</b>
-                                                                        </div>
+                                                                            {% if user['locId'] in [12] %}
+                                                                                <b>{% if dayPart=='1' %}AM{% else %}PM{% endif %} NOTES</b>
+                                                                            {% else %}
+                                                                                <b>{% if dayPart=='1' %}AM{% else %}PM{% endif %} IN TIMES</b>
+                                                                            {% endif %}
+                                                                            </div>
                                                                         <div class="times box-tbl">
                                                                             <table width="100%">
                                                                                 {% for line in schedule[day][dayPart].servers[0].inTimes %}
