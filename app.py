@@ -9,11 +9,6 @@ app = Flask(__name__)
 
 user = {}
 
-@app.route('/headers.html')
-def index():
-    userId = request.headers.get('X-Ms-Client-Principal-Name')
-    return render_template('home/headers.html', userId=userId)
-
 @app.route('/')
 def index():
     
@@ -92,6 +87,11 @@ def employees():
         return render_template('home/v2/employees.html', user=user, employees=getEmployees(user['locId']))
     else:
         return render_template('home/employees.html', user=user, employees=getEmployees(user['locId']))
+
+@app.route('/headers.html')
+def index():
+    userId = request.headers.get('X-Ms-Client-Principal-Name')
+    return render_template('home/headers.html', userId=userId)
     
 @app.route('/settings.html', methods=["GET", "POST"])
 def settings():
