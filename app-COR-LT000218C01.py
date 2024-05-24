@@ -9,11 +9,6 @@ app = Flask(__name__)
 
 user = {}
 
-@app.route('/headers.html')
-def index():
-    userId = request.headers.get('X-Ms-Client-Principal-Name')
-    return render_template('home/headers.html', userId=userId)
-
 @app.route('/')
 def index():
     
@@ -35,7 +30,7 @@ def index():
     except NameError:
         staffing = getStaffingSummary(user['locId'])
 
-    if user['locId'] in [0, 2, 12, 13, 14, 17, 18]:
+    if user['locId'] in [0, 2, 12, 13, 14, 17, 18, 35]:
         return render_template('home/v2/index.html', user=user, expiry=expiry, staffing=staffing)
     else:
         return render_template('home/index.html', user=user, expiry=expiry, staffing=staffing)
@@ -88,7 +83,7 @@ def employees():
         elif request.form.get("submitType") == "delete":
             empId = request.form.get('empId')
             result = deleteEmployee(empId)
-    if user['locId'] in [0, 2, 12, 13, 14, 17, 18]:
+    if user['locId'] in [0, 2, 12, 13, 14, 17, 18, 35]:
         return render_template('home/v2/employees.html', user=user, employees=getEmployees(user['locId']))
     else:
         return render_template('home/employees.html', user=user, employees=getEmployees(user['locId']))
@@ -136,7 +131,7 @@ def settings():
         elif request.form.get("command") == "updateFooter":
             result = updateFooter(user['locId'], request.form.get("footer"))
 
-    if user['locId'] in [0, 2, 12, 13, 14, 17, 18]:
+    if user['locId'] in [0, 2, 12, 13, 14, 17, 18, 35]:
         return render_template('home/v2/settings.html', user=user, settings=getSettings(user['locId']), footer=getFooter(user['locId']))
     else:
         return render_template('home/settings.html', user=user, settings=getSettings(user['locId']), footer=getFooter(user['locId']))
@@ -163,7 +158,7 @@ def schedule():
     dateString = f"{year}{month}{day}"
     dateValue = f"{year}-{month}-{day}"
 
-    if user['locId'] in [0, 2, 12, 13, 14, 17, 18]:
+    if user['locId'] in [0, 2, 12, 13, 14, 17, 18, 35]:
         return render_template('home/v2/schedule.html', user=user, schedule=getCalendar(user['locId'], dateString), footer=getFooter(user['locId']), dateValue=dateValue)
     else:
         return render_template('home/schedule.html', user=user, schedule=getCalendar(user['locId'], dateString), footer=getFooter(user['locId']), dateValue=dateValue)
@@ -212,7 +207,7 @@ def contact():
 
         response = sendMessage(postDict)
     
-    if user['locId'] in [0, 2, 12, 13, 14, 17, 18]:
+    if user['locId'] in [0, 2, 12, 13, 14, 17, 18, 35]:
         return render_template('home/v2/contact.html', user=user, rq_method=request.method, schedDate=dateValue)
     else:
         return render_template('home/contact.html', user=user, rq_method=request.method, schedDate=dateValue)
@@ -233,7 +228,7 @@ def phonelist():
         else:
             employees[employee]['bgcolor'] = '#f0f0f0'
 
-    if user['locId'] in [0, 2, 12, 13, 14, 17, 18]:
+    if user['locId'] in [0, 2, 12, 13, 14, 17, 18, 35]:
         return render_template('home/v2/phonelist.html', user=user, employees=employees)
     else:
         return render_template('home/phonelist.html', user=user, employees=employees)
