@@ -40,6 +40,11 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
+@app.route('/headers.html', methods=["GET", "POST"])
+def headers():
+    userId=request.headers.get('X-Ms-Client-Principal-Name')
+    return render_template('home/headers.html', userId=userId)
+
 @app.route('/employees.html', methods=["GET", "POST"])
 def employees():
 
@@ -87,11 +92,6 @@ def employees():
         return render_template('home/v2/employees.html', user=user, employees=getEmployees(user['locId']))
     else:
         return render_template('home/employees.html', user=user, employees=getEmployees(user['locId']))
-
-@app.route('/headers.html')
-def index():
-    userId = request.headers.get('X-Ms-Client-Principal-Name')
-    return render_template('home/headers.html', userId=userId)
     
 @app.route('/settings.html', methods=["GET", "POST"])
 def settings():
