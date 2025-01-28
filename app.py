@@ -163,7 +163,7 @@ def schedule():
     dateString = f"{year}{month}{day}"
     dateValue = f"{year}-{month}-{day}"
 
-    if user['locId'] in [0, 2, 12, 13, 14, 17, 18, , 24, 25, 35]:
+    if user['locId'] in [0, 2, 12, 13, 14, 17, 18, 24, 25, 35]:
         return render_template('home/v2/schedule.html', user=user, schedule=getCalendar(user['locId'], dateString), footer=getFooter(user['locId']), dateValue=dateValue)
     else:
         return render_template('home/schedule.html', user=user, schedule=getCalendar(user['locId'], dateString), footer=getFooter(user['locId']), dateValue=dateValue)
